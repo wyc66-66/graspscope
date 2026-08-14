@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenVocab-GraspGate — Closed-Loop Deployability Audit</title>
+    <style>
+      :root {
+        --bg: #0b0f10;
+        --panel: #101719;
+        --panel2: #0d1416;
+        --line: #1e2a2e;
+        --ink: #d8e0e2;
+        --muted: #6f7f84;
+        --accent: #4fd1a5;
+        --accent2: #4f9fd1;
+        --warn: #e8a33d;
+        --danger: #e85d5d;
+        --ok: #4fd1a5;
+        --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --sans: "Syne", system-ui, -apple-system, sans-serif;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--mono);
+        line-height: 1.55;
+        padding: 28px clamp(16px, 4vw, 48px) 64px;
+      }
+      .wrap { max-width: 1160px; margin: 0 auto; }
+      header {
+        display: flex; align-items: baseline; justify-content: space-between;
+        gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--line);
+        padding-bottom: 14px; margin-bottom: 22px;
+      }
+      h1 { font-family: var(--sans); font-size: 26px; letter-spacing: .02em; }
+      h1 .accent { color: var(--accent); }
+      .tagline { color: var(--muted); font-size: 12px; margin-top: 4px; }
+      .meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .badge {
+        font-size: 11px; padding: 3px 9px; border-radius: 4px;
+        border: 1px solid var(--line); color: var(--muted);
+      }
+      .badge.ok { color: var(--ok); border-color: var(--ok); }
+      .badge.cliff { color: var(--warn); border-color: var(--warn); }
+      .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+      .card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+        padding: 18px;
+      }
+      .card h2 { font-family: var(--sans); font-size: 14px; letter-spacing: .04em;
+        color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+      .gate-panel { border-color: var(--accent); }
+      .gate-panel.pass { border-color: var(--ok); }
+      .gate-panel.fail { border-color: var(--danger); }
+      .big-number { font-size: 44px; font-weight: 600; font-family: var(--sans); }
+      .big-number .unit { font-size: 16px; color: var(--muted); margin-left: 6px; }
+      .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 12px; }
+      .kv dt { color: var(--muted); }
+      .kv dd { text-align: right; }
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+      th { color: var(--muted); font-weight: 400; font-size: 11px; text-transform: uppercase; }
+      td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .cliff-row td { color: var(--warn); }
+      svg text { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+      .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-top: 8px; }
+      .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+      .scene-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+      .scene-card { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+      .scene-card.fail { border-color: rgba(232,93,93,.55); }
+      .scene-card.ok { border-color: rgba(79,209,165,.45); }
+      .scene-card img { width: 100%; display: block; }
+      .scene-card .cap { padding: 8px 10px; font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+      .scene-card .cap b { color: var(--ink); font-weight: 400; }
+      .hint { color: var(--muted); font-size: 11px; margin-top: 10px; }
+      .stack { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--line); color: var(--muted); }
+      .chip.hl { color: var(--accent); border-color: var(--accent); }
+      .footer { margin-top: 26px; color: var(--muted); font-size: 11px; border-top: 1px solid var(--line); padding-top: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+      .pos { color: var(--accent); }
+      .neg { color: var(--danger); }
+      .warn { color: var(--warn); }
+      .muted { color: var(--muted); }
+      #status { margin-top: 8px; font-size: 12px; }
+      #status.err { color: var(--danger); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>OpenVocab-<span class="accent">GraspGate</span></h1>
+          <p class="tagline">Closed-loop deployability audit for open-vocabulary robotic grasping · same methodology as the driving gate</p>
+        </div>
+        <div class="meta">
+          <span class="badge ok" id="statusBadge">loading…</span>
+          <span class="badge" id="gateBadge">gate —</span>
+          <a href="/graspgate" class="chip" style="text-decoration:none;">OpenVocab-GraspGate</a>
+        </div>
+      </header>
+
+      <div class="card" style="margin-bottom: 18px;">
+        <div class="stack">
+          <span class="chip hl">methodology reuse</span>
+          <span class="chip">driving: vocab coverage → nuPlan safety frontier</span>
+          <span class="chip">manipulation: vocab coverage → grasp reliability frontier</span>
+          <span class="chip">shared: PerceptionErrorProfile → closed-loop sim → cliff + gate</span>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); margin-bottom: 18px;">
+        <div class="card gate-panel" id="gateCard">
+          <h2>Deployment Gate</h2>
+          <div class="big-number"><span id="coverageMin">—</span><span class="unit">α coverage min</span></div>
+          <dl class="kv" style="margin-top:10px;" id="gateKv"></dl>
+        </div>
+        <div class="card">
+          <h2>Safety Cliff</h2>
+          <div class="big-number"><span id="cliffCoverage">—</span><span class="unit">α</span></div>
+          <dl class="kv" style="margin-top:10px;" id="cliffKv"></dl>
+        </div>
+        <div class="card">
+          <h2>Real-world Anchor</h2>
+          <div class="big-number"><span id="realSuccess">—</span><span class="unit">success</span></div>
+          <dl class="kv" style="margin-top:10px;" id="realKv"></dl>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 2fr 1fr;">
+        <div class="card">
+          <h2>Coverage α → grasp failure rate</h2>
+          <div id="cliffChart"></div>
+          <div class="legend">
+            <span><i style="background:var(--danger)"></i>failure rate</span>
+            <span><i style="background:var(--ok)"></i>success rate</span>
+            <span><i style="background:var(--accent2)"></i>CI band</span>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Failure decomposition</h2>
+          <div id="decompChart"></div>
+          <p class="hint">empty grasp = coverage gap · wrong object = perception confusion / OOV phantom · drop = execution layer</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 18px;">
+        <h2>Frontier</h2>
+        <table id="frontierTable">
+          <thead><tr><th>tier</th><th class="num">α</th><th class="num">n</th><th class="num">failure</th><th class="num">success</th><th class="num">CI lo</th><th class="num">CI hi</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="stack" style="margin-top: 10px;">
+          <span class="chip hl">cliff detection: max two-sample separation</span>
+          <span class="chip">Wilson 95% CI</span>
+          <span class="chip">Fisher exact + BH-FDR</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 18px;">
+        <h2>Sample scenes</h2>
+        <div class="scene-grid" id="sceneGrid"></div>
+        <p class="hint">Synthetic shelf scenes composited from real COCO product crops · vocabulary coverage α controlled by construction</p>
+      </div>
+
+      <div class="card" style="margin-top: 18px;">
+        <h2>Representative grasp outcomes</h2>
+        <p class="hint" style="margin-top:0;">Per tier: a success and a failure sampled from the closed-loop sweep · what the perception stack actually delivered</p>
+        <div class="scene-grid" id="caseGrid"></div>
+      </div>
+
+      <div class="footer">
+        <span>OpenGate · nuScenes+nuPlan (driving) → COCO + grasp simulator (manipulation)</span>
+        <span id="footTs">—</span>
+      </div>
+    </div>
+    <script src="/static/graspgate.js"></script>
+  </body>
+</html>

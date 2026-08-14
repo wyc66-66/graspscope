@@ -1,0 +1,197 @@
+{
+  "name": "grasp_alpha_0.2",
+  "classes": {
+    "bottle": {
+      "cls": "bottle",
+      "recall": 0.3793103448275862,
+      "precision": 1.0,
+      "n_gt": 29,
+      "n_tp": 11,
+      "recall_3d": null,
+      "loc_recall": 0.7586206896551724,
+      "confusion": {
+        "book": 10,
+        "cup": 1
+      }
+    },
+    "cup": {
+      "cls": "cup",
+      "recall": 0.07142857142857142,
+      "precision": 1.0,
+      "n_gt": 28,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.39285714285714285,
+      "confusion": {
+        "book": 8,
+        "bowl": 1
+      }
+    },
+    "bowl": {
+      "cls": "bowl",
+      "recall": 0.28,
+      "precision": 1.0,
+      "n_gt": 25,
+      "n_tp": 7,
+      "recall_3d": null,
+      "loc_recall": 0.48,
+      "confusion": {
+        "cup": 2,
+        "book": 3
+      }
+    },
+    "book": {
+      "cls": "book",
+      "recall": 0.5185185185185185,
+      "precision": 1.0,
+      "n_gt": 27,
+      "n_tp": 14,
+      "recall_3d": null,
+      "loc_recall": 0.5185185185185185,
+      "confusion": {}
+    },
+    "banana": {
+      "cls": "banana",
+      "recall": 0.09523809523809523,
+      "precision": 1.0,
+      "n_gt": 21,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.19047619047619047,
+      "confusion": {
+        "bowl": 1,
+        "vase": 1
+      }
+    },
+    "apple": {
+      "cls": "apple",
+      "recall": 0.06451612903225806,
+      "precision": 1.0,
+      "n_gt": 31,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.12903225806451613,
+      "confusion": {
+        "bowl": 1,
+        "book": 1
+      }
+    },
+    "orange": {
+      "cls": "orange",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 34,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.4411764705882353,
+      "confusion": {
+        "bowl": 9,
+        "apple": 2,
+        "cake": 3,
+        "book": 1
+      }
+    },
+    "carrot": {
+      "cls": "carrot",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 19,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.3157894736842105,
+      "confusion": {
+        "cake": 4,
+        "bowl": 1,
+        "orange": 1
+      }
+    },
+    "cake": {
+      "cls": "cake",
+      "recall": 0.3333333333333333,
+      "precision": 1.0,
+      "n_gt": 27,
+      "n_tp": 9,
+      "recall_3d": null,
+      "loc_recall": 0.4444444444444444,
+      "confusion": {
+        "book": 3
+      }
+    },
+    "donut": {
+      "cls": "donut",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 0,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.0,
+      "confusion": {}
+    },
+    "sports ball": {
+      "cls": "sports ball",
+      "recall": 0.0967741935483871,
+      "precision": 1.0,
+      "n_gt": 31,
+      "n_tp": 3,
+      "recall_3d": null,
+      "loc_recall": 0.3870967741935484,
+      "confusion": {
+        "book": 7,
+        "cup": 2
+      }
+    },
+    "vase": {
+      "cls": "vase",
+      "recall": 0.07142857142857142,
+      "precision": 1.0,
+      "n_gt": 28,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.7142857142857143,
+      "confusion": {
+        "book": 8,
+        "bottle": 3,
+        "cake": 3,
+        "apple": 2,
+        "cup": 2
+      }
+    }
+  },
+  "oov_fp_by_conf": {
+    "0.15": 0.0,
+    "0.25": 0.0,
+    "0.40": 0.0,
+    "0.50": 0.0,
+    "0.70": 0.0,
+    "default": 0.0
+  },
+  "conf_default": 0.5,
+  "sources": [
+    "grasp_audit:alpha_0.2"
+  ],
+  "generated": "2026-08-14T17:56:44.566621+00:00",
+  "meta": {
+    "tier": "alpha_0.2",
+    "alpha": 0.2,
+    "grasp_vocab": [
+      "bottle",
+      "cup",
+      "bowl",
+      "book",
+      "banana",
+      "apple",
+      "orange",
+      "carrot",
+      "cake",
+      "donut",
+      "sports ball",
+      "vase"
+    ],
+    "model": "yolov8l-world-cc3m.pt",
+    "n_images": 150,
+    "n_gt": 300,
+    "n_tp": 52
+  },
+  "injection_source": "2d",
+  "fusion_strategy": "2d"
+}

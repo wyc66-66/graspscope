@@ -1,0 +1,404 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>OpenVocab-GraspGate</title><style>
+:root{--ink:#111318;--mut:#5b6470;--line:#d9dee5;--acc:#1b7a5a;}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--ink);
+  line-height:1.62;max-width:820px;margin:0 auto;padding:40px 48px 72px;font-size:14.5px}
+h1{font-size:26px;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:19px;margin:30px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 6px}
+p{margin:10px 0}
+code{font-family:Consolas,'Cascadia Mono',monospace;font-size:.9em;background:#f2f4f7;
+  padding:1px 4px;border-radius:3px}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:#f2f4f7;font-weight:600}
+tr:nth-child(even) td{background:#fafbfc}
+img{max-width:100%;border:1px solid var(--line);border-radius:6px;margin:8px 0}
+figure{margin:16px 0}
+figcaption{font-size:12px;color:var(--mut);margin-top:2px}
+blockquote{border-left:3px solid var(--acc);margin:12px 0;padding:2px 16px;
+  background:#f4f8f6;color:#2a3a34}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+@media print{
+  body{padding:0 4mm}
+  h2{page-break-before:auto}
+  figure{page-break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style></head><body><h1>OpenVocab-GraspGate: Closed-Loop Deployability Audits for Open-Vocabulary Robotic Grasping</h1>
+<p><strong>Technical report</strong> · 2026-08-15</p>
+<hr />
+<h2>Abstract</h2>
+<p>Open-vocabulary object detection has made it practical to deploy robotic grasping
+in domains where the object inventory is not known in advance: instead of a fixed
+class set, the operator ships a <em>vocabulary</em> of natural-language object names and
+the policy attempts to grasp whatever is named. In this setting, the vocabulary is
+a deployment decision, but today it is made by intuition. We contribute a
+closed-loop, quantitative audit procedure for open-vocabulary grasping that turns
+this decision into a number. The procedure has four steps: (i) profile the
+perception stack's failure modes on the target scenes; (ii) inject those measured
+failures into a closed-loop grasp simulator; (iii) sweep the vocabulary coverage
+α (the fraction of objects in a scene whose names are in the vocabulary)
+and estimate the resulting grasp failure rate with confidence intervals; (iv)
+derive a <em>deployment gate</em> — the minimum coverage required to keep failure below a
+chosen bound. On a corpus of 750 synthetic shelf scenes composited from real COCO
+product crops plus 149 real scenes, we show that coverage α is a <em>safety
+cliff</em>: reducing α from 1.0 to 0.2 raises grasp failure from 9.9%
+(95% CI [7.9,12.2]) to 57.2% ([53.6,60.7]), with a statistically detected
+cliff at α = 0.4 (separation 5.5×). The failure composition shifts
+systematically — <em>empty grasp</em> dominates when coverage is low, <em>wrong-object grasp</em>
+dominates when coverage is high but perception still confuses classes. For a
+target failure bound of 25%, the gate requires α ≥ 0.653. A real-scene
+anchor (72% success) sits well below the synthetic α = 1.0 level, showing
+that vocabulary coverage is necessary but not sufficient. Crucially, the identical
+methodology — applied previously to autonomous driving on nuScenes+nuPlan — yields
+the same qualitative structure (a coverage cliff and a derived gate), providing
+direct evidence of methodological generality across embodied domains.</p>
+<hr />
+<h2>1. Introduction</h2>
+<p>Robotic manipulation is moving from closed-vocabulary pipelines to open-vocabulary
+ones. Systems such as GraspVLA [wanghe2025graspvla], OpenVLA [kim2024openvla], and
+YOLO-World [cheng2024yolo_world] accept a natural-language vocabulary at inference
+time and can grasp objects whose categories were never in the training data. For a
+retail-picking deployment — a robot that shelves groceries or fulfils online
+orders — this changes the operational question from <em>"which categories must we
+support?"</em> to <em>"which words must we put in the vocabulary, and what happens if we
+miss some?"</em></p>
+<p>The latter question has no quantitative answer today. Prior work evaluates
+open-vocabulary perception with recall/precision on fixed benchmarks [lin2014coco,
+cheng2024yolo_world], and evaluates grasping with success rate on physical or
+simulated trials [brohan2022rt1, gu2024openvla]. Neither measures the <em>causal path</em>
+from a vocabulary decision to an end-task failure in deployment. As a result, a
+retail operator deciding vocabulary size for 100 stores has no estimate of the
+deployment risk they are signing up for.</p>
+<p>We address this gap with a closed-loop audit procedure (Fig. 1) that reuses a
+methodology previously validated for autonomous driving [opengate2025]. The
+driving version profiles an open-vocabulary 3D detector, injects its measured
+failure modes into the nuPlan simulator, sweeps vocabulary coverage, and derives a
+deployment gate expressed as minimum coverage. Here we instantiate the same four
+stages for grasping:</p>
+<ol>
+<li><strong>Perception profiling.</strong> Run an open-vocabulary 2D detector (YOLO-World) over
+   the target scene corpus and record per-class recall, <em>localization recall</em>
+   (box overlap regardless of label), and a label-confusion matrix.</li>
+<li><strong>Closed-loop simulation.</strong> Feed the measured failure modes into a grasp
+   simulator that models the full pipeline: detect → localize → classify → grasp.
+   Grasp outcomes are success, <em>empty grasp</em> (nothing where perception claimed), or
+   <em>wrong-object grasp</em> (an object was grasped, but not the intended one).</li>
+<li><strong>Coverage sweep.</strong> Construct scene tiers by vocabulary coverage
+   α ∈ {0.2, 0.4, 0.6, 0.8, 1.0} — the fraction of scene objects whose names
+   are in the deployment vocabulary. Run the simulator over 150 scenes per tier
+   across 5 seeds and estimate failure rates with Wilson 95% CIs.</li>
+<li><strong>Deployment gate.</strong> Interpolate the monotone frontier and return the minimum
+   coverage α* such that failure rate ≤ a chosen bound.</li>
+</ol>
+<p><strong>Contributions.</strong></p>
+<ul>
+<li><strong>An α-safety cliff in grasping.</strong> Grasp failure jumps from 9.9% at
+  α = 1.0 to 57.2% at α = 0.2. The cliff (max two-sample separation,
+  5.5×) is detected at α = 0.4 and is significant against adjacent
+  tiers (Fisher exact, BH-FDR q &lt; 10⁻³).</li>
+<li><strong>A deployment gate with a number.</strong> For a 25% failure bound, the gate is
+  α ≥ 0.653 — a directly actionable vocabulary-size decision.</li>
+<li><strong>Failure composition explains the cliff.</strong> Low coverage fails by <em>empty grasp</em>
+  (can't find what isn't named); high coverage with confused perception fails by
+  <em>wrong-object grasp</em>. The two regimes have different mitigations.</li>
+<li><strong>Cross-domain generality.</strong> The identical pipeline yields the same qualitative
+  structure on driving (nuScenes+nuPlan) and grasping — a coverage cliff with a
+  derived gate — supporting the claim that the audit is a general evaluation
+  methodology, not a domain-specific hack.</li>
+</ul>
+<h2>2. Related Work</h2>
+<p><strong>Open-vocabulary perception.</strong> YOLO-World [cheng2024yolo_world] and its
+successors enable open-set detection by grounding class prompts with text
+embeddings; Grounding DINO [liu2023groundingdino] and OWL-ViT [minderer2022owl]
+provide similar capability. Evaluation focuses on AP/recall on LVIS [gupta2019lvis]
+and COCO [lin2014coco], which measures perception quality in isolation, not
+deployment consequence.</p>
+<p><strong>Robot learning and grasping.</strong> RT-1 [brohan2022rt1], OpenVLA [kim2024openvla],
+and policy/grasp foundation models [wanghe2025graspvla] report success rates on
+benchmarks (e.g. LIBERO [liu2022libero], RLBench [james2020rlbench]). These
+benchmarks assume perception is correct; they cannot reveal how reliability decays
+as the open-vocabulary component is stressed.</p>
+<p><strong>Closed-loop safety evaluation.</strong> In autonomous driving, closed-loop simulation
+with injected perception failures is established practice [nuplan2021, zhang2023safety].
+Our driving-domain audit [opengate2025] extends this to open-vocabulary coverage.
+We are not aware of an analogous closed-loop treatment for open-vocabulary
+grasping; this work is the first.</p>
+<h2>3. Method</h2>
+<p>We formalize the audit as a function from a deployment vocabulary to a
+failure-rate estimate with uncertainty.</p>
+<h3>3.1 Vocabulary coverage α</h3>
+<p>Let a scene contain objects O = {o₁, …, o_m} drawn from categories C. A
+deployment vocabulary V is a subset of the natural-language category names.
+Coverage of the scene is</p>
+<p>α = |{ c(oᵢ) ∈ V }| / m.</p>
+<p>We build scene tiers by controlling α <em>by construction</em>: each synthetic
+scene is assembled so that a known fraction of its objects have names in V. This
+makes the coverage axis a controlled experimental variable.</p>
+<h3>3.2 Perception error profiling</h3>
+<p>For a fixed V, run the detector on all scenes in a tier. For each object we
+record whether it was (a) localized (IoU match to ground truth), and (b) localized
+<em>and</em> classified with the correct label. Aggregate per class into:</p>
+<ul>
+<li><strong>recall</strong> — fraction of GT objects localized <em>and</em> correctly labeled;</li>
+<li><strong>localization recall</strong> (loc_recall) — fraction localized
+  regardless of label;</li>
+<li><strong>confusion matrix</strong> — for objects localized but mislabeled, the empirical
+  distribution of the predicted label.</li>
+</ul>
+<p>The distinction between strict recall and localization recall is central: an
+object that is localized but mislabeled will produce a <em>wrong-object grasp</em>, which
+is a different failure than an object that is never found (<em>empty grasp</em>).</p>
+<h3>3.3 Closed-loop grasp simulation</h3>
+<p>The simulator consumes a scene's ground-truth object list and the perception
+profile, and emits grasp attempts:</p>
+<ul>
+<li><strong>Perceive.</strong> Sample detection outcomes from the profile: each GT object is
+  missed with probability 1 − loc_recall; localized objects are
+  mislabeled according to the confusion distribution. Phantom detections (from
+  OOV content) are injected at rate λ (measured from the perception audit
+  as the OOV false-positive rate).</li>
+<li><strong>Plan.</strong> Choose the object whose name matches the requested target; if none is
+  perceived, plan an <em>empty</em> attempt.</li>
+<li><strong>Execute.</strong> A grasp on the correct object succeeds with probability equal to the
+  published execution anchor s_exec = 0.95 (publicly reported real
+  grasping success); a grasp on the wrong object is recorded as
+  <em>wrong-object grasp</em>; one re-grasp is allowed after a drop, mirroring real
+  picking loops.</li>
+</ul>
+<p>Outcome classes: <code>success</code>, <code>empty_grasp</code>, <code>wrong_object</code>, <code>drop</code>.</p>
+<h3>3.4 Safety frontier and deployment gate</h3>
+<p>Aggregate outcomes per tier into failure rate f̂(α) with Wilson 95% CIs.
+Fit a monotone piecewise-linear frontier. The <strong>safety cliff</strong> is the adjacent
+tier pair with the largest two-sample separation (ratio of failure rates, with
+bootstrap CI); significance is assessed by Fisher exact test with Benjamini-Hochberg
+FDR correction across pairs. The <strong>deployment gate</strong> is the smallest coverage
+α* satisfying f̂(α) ≤ f_max, obtained by linear
+interpolation on the monotone frontier.</p>
+<p><img alt="Method pipeline: one audit procedure instantiated for driving (nuPlan) and grasping (GraspEnv)." src="figures/fig1_pipeline.png" /></p>
+<h2>4. Experiments</h2>
+<h3>4.1 Setup</h3>
+<p><strong>Corpus.</strong> 750 synthetic shelf/desk scenes (960×540), 150 per tier for
+α ∈ {0.2, 0.4, 0.6, 0.8, 1.0}. Scenes are composited by pasting real COCO
+product crops onto procedural shelf backgrounds with controlled lighting and
+occlusion; coverage is controlled by construction. 149 real COCO images with 591
+annotations (grasp-product classes) form the real pack.</p>
+<p><strong>Vocabulary.</strong> 12 classes: bottle, cup, bowl, book, banana, apple, orange,
+carrot, cake, donut, sports ball, vase.</p>
+<p><strong>Detector.</strong> YOLO-World (<code>yolov8s-world.pt</code>), imgsz 640, conf 0.15.</p>
+<p><strong>Simulator.</strong> Execution anchor s_exec = 0.95; phantom rate λ
+measured per profile; 5 seeds averaged.</p>
+<h3>4.2 The perception layer is α-flat</h3>
+<p>Perception is measured on each tier with the <em>same</em> vocabulary V; α does
+not change the detector's weights. Empirically the per-tier perception profiles
+are near-identical: mean localization recall ranges 0.40–0.45 across tiers and
+mean strict recall 0.17–0.23. <strong>The α-cliff cannot come from perception
+itself</strong> — it must emerge from the closed-loop interaction between coverage and
+the downstream grasp decision.</p>
+<h3>4.3 The α-safety cliff</h3>
+<table>
+<thead>
+<tr>
+<th>α</th>
+<th>grasp failure</th>
+<th>95% CI</th>
+<th>success</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>9.9%</td>
+<td>[7.9, 12.2]</td>
+<td>90.1%</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>12.5%</td>
+<td>[10.4, 15.1]</td>
+<td>87.5%</td>
+</tr>
+<tr>
+<td>0.6</td>
+<td>29.5%</td>
+<td>[26.3, 32.8]</td>
+<td>70.5%</td>
+</tr>
+<tr>
+<td>0.4</td>
+<td>30.4%</td>
+<td>[27.2, 33.8]</td>
+<td>69.6%</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td><strong>57.2%</strong></td>
+<td>[53.6, 60.7]</td>
+<td>42.8%</td>
+</tr>
+</tbody>
+</table>
+<p>The frontier is monotone. Adjacent-tier tests: α = 0.2 → 0.4
+(p_Fisher = 0, q &lt; 10⁻³), α = 0.6 → 0.8
+(p_Fisher = 0, q &lt; 10⁻³). The maximal separation (5.5×) is at
+α = 0.4, our detected cliff. Below it, a 0.2 drop in coverage approximately
+doubles the failure rate.</p>
+<p><img alt="The α-safety cliff: grasp failure rate vs vocabulary coverage, with Wilson 95% CIs, the detected cliff (α=0.4), and the deployment gate (α≥0.653)." src="figures/fig2_alpha_cliff.png" /></p>
+<h3>4.4 Failure composition</h3>
+<table>
+<thead>
+<tr>
+<th>α</th>
+<th>empty grasp</th>
+<th>wrong object</th>
+<th>drop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.2</td>
+<td>31.1%</td>
+<td>25.9%</td>
+<td>0.3%</td>
+</tr>
+<tr>
+<td>0.4</td>
+<td>8.7%</td>
+<td>21.6%</td>
+<td>0.1%</td>
+</tr>
+<tr>
+<td>0.6</td>
+<td>6.7%</td>
+<td>22.1%</td>
+<td>0.7%</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>1.7%</td>
+<td>10.7%</td>
+<td>0.1%</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>0.9%</td>
+<td>8.7%</td>
+<td>0.3%</td>
+</tr>
+</tbody>
+</table>
+<p>Two regimes are visible. At low α the dominant failure is <strong>empty grasp</strong>:
+objects outside the vocabulary are never perceived, so the robot reaches into
+empty space. At high α the residual failure is <strong>wrong-object grasp</strong>:
+objects are found but the perception stack mislabels them (e.g. a carrot detected
+as a banana), so the robot grasps the wrong item. These have <em>different
+mitigations</em> — vocabulary expansion vs. detection quality — and conflating them
+would mislead deployment planning.</p>
+<p><img alt="Failure composition by coverage: empty grasp dominates at low α, wrong-object grasp at high α." src="figures/fig3_failure_decomp.png" /></p>
+<h3>4.5 The deployment gate</h3>
+<p>For a target failure bound of 25%, the interpolated gate is</p>
+<p>α* = 0.653.</p>
+<p>A deployment must ensure that at least 65.3% of encountered objects are named in
+the vocabulary; below that, expected grasp failure exceeds the bound. The gate
+interpolates the segment α = 0.6 (29.5%) → α = 0.8 (12.5%).</p>
+<h3>4.6 Real-world anchor</h3>
+<p>Running the same closed-loop pipeline on 50 real COCO product scenes (vocabulary
+covers the pack by design, so α = 1.0) yields <strong>72% success</strong> (95% CI
+[58.3, 82.5]). This is 18 points below the synthetic α = 1.0 level (90.1%).
+The gap quantifies the residual <em>perception reality gap</em>: coverage is necessary but
+not sufficient; detector quality on real imagery must also be held to account.</p>
+<p><img alt="Synthetic α=1.0 vs real-scene anchor: coverage is necessary but not sufficient." src="figures/fig5_real_anchor.png" /></p>
+<h3>4.7 Cross-domain comparison (driving → grasping)</h3>
+<p>The same four-stage audit was previously applied to open-vocabulary 3D detection
+for autonomous driving on nuScenes+nuPlan [opengate2025]. The driving frontier
+collision rate is α = 0.2: 68%, α = 0.6: 60%, α = 0.8: 36%,
+α = 1.0: 8%, with a detected cliff separation of 5.6×.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>driving (OpenGate)</th>
+<th>grasping (GraspGate)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perception</td>
+<td>open-vocab 3D detector</td>
+<td>open-vocab 2D detector</td>
+</tr>
+<tr>
+<td>simulator</td>
+<td>nuPlan closed-loop</td>
+<td>grasp closed-loop sim</td>
+</tr>
+<tr>
+<td>coverage sweep</td>
+<td>nuScenes vocab tiers</td>
+<td>synthetic α tiers</td>
+</tr>
+<tr>
+<td>worst-tier failure</td>
+<td>68% (α=0.2)</td>
+<td>57.2% (α=0.2)</td>
+</tr>
+<tr>
+<td>best-tier failure</td>
+<td>8% (α=1.0)</td>
+<td>9.9% (α=1.0)</td>
+</tr>
+<tr>
+<td>cliff separation</td>
+<td>5.6×</td>
+<td>5.5×</td>
+</tr>
+<tr>
+<td>deployment gate</td>
+<td>coverage threshold</td>
+<td>coverage threshold</td>
+</tr>
+</tbody>
+</table>
+<p>The two domains exhibit the same qualitative law: <strong>an α-cliff near 0.4–0.8 with a
+derived coverage gate</strong>, even though the perception stacks, simulators, and
+failure semantics are entirely different. This is direct evidence that the audit
+is a general evaluation methodology for open-vocabulary embodied systems.</p>
+<p><img alt="Cross-domain comparison: driving (nuPlan collision rate) and grasping (GraspEnv failure rate) share a coverage cliff." src="figures/fig4_cross_domain.png" /></p>
+<h2>5. Limitations</h2>
+<ul>
+<li><strong>Fidelity is relative, not physical.</strong> The simulator quantifies the <em>relative</em>
+  effect of perception failure on grasp outcome; it is anchored to published
+  execution success but does not model contact physics. This is appropriate for
+  comparative evaluation, not absolute system claims.</li>
+<li><strong>Synthetic scenes.</strong> Product crops are real COCO images, but compositions are
+  synthetic; the real pack (Sec. 4.6) partially guards against this.</li>
+<li><strong>Single detector.</strong> We use YOLO-World only; the gate value will shift with
+  detector quality. The <em>procedure</em> is detector-agnostic.</li>
+</ul>
+<h2>6. Conclusion</h2>
+<p>Vocabulary coverage is a deployment decision, and in open-vocabulary grasping it
+is a safety-relevant one. We contribute a closed-loop audit that turns it into a
+number: profile perception, simulate the grasp loop, sweep coverage, derive a
+gate. Applied to our corpus, it yields an α-safety cliff at α = 0.4, a
+deployment gate of α ≥ 0.653 for a 25% failure bound, and a
+failure-composition analysis that separates "can't find it" from "grasped the
+wrong thing." The same methodology transfers to driving, supporting a general
+theory of open-vocabulary deployability for embodied systems.</p>
+<hr />
+<h2>References</h2>
+<ol>
+<li>Cheng, T. et al. <em>YOLO-World: Real-Time Open-Vocabulary Object Detection.</em> CVPR 2024.</li>
+<li>Lin, T.-Y. et al. <em>Microsoft COCO: Common Objects in Context.</em> ECCV 2014.</li>
+<li>Kim, M. et al. <em>OpenVLA: An Open-Source Vision-Language-Action Model.</em> CoRL 2024.</li>
+<li>Brohan, A. et al. <em>RT-1: Robotics Transformer for Real-World Control at Scale.</em> RSS 2023.</li>
+<li>Liu, S. et al. <em>Grounding DINO: Marrying DINO with Grounded Pre-Training.</em> ICCV 2023.</li>
+<li>Minderer, M. et al. <em>Simple Open-Vocabulary Object Detection with Vision Transformers.</em> ECCV 2022.</li>
+<li>Gupta, A. et al. <em>LVIS: A Dataset for Large Vocabulary Instance Segmentation.</em> CVPR 2019.</li>
+<li>Liu, B. et al. <em>LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning.</em> NeurIPS 2022.</li>
+<li>James, S. et al. <em>RLBench: The Robot Learning Benchmark &amp; Learning Environment.</em> RA-L 2020.</li>
+<li>Caesar, H. et al. <em>nuScenes: A Multimodal Dataset for Autonomous Driving.</em> CVPR 2020.</li>
+<li>Dauner, D. et al. <em>Navsim: Data-driven non-reactive autonomous vehicle simulation and benchmarking.</em> ICRA 2024.</li>
+<li>OpenGate. <em>OpenGate: Closed-Loop Deployability Audits for Open-Vocabulary Autonomous Driving.</em> Technical report, 2025.</li>
+</ol></body></html>

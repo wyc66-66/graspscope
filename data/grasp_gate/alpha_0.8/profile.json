@@ -1,0 +1,206 @@
+{
+  "name": "grasp_alpha_0.8",
+  "classes": {
+    "bottle": {
+      "cls": "bottle",
+      "recall": 0.3076923076923077,
+      "precision": 1.0,
+      "n_gt": 104,
+      "n_tp": 32,
+      "recall_3d": null,
+      "loc_recall": 0.5865384615384616,
+      "confusion": {
+        "book": 22,
+        "cup": 6,
+        "cake": 1
+      }
+    },
+    "cup": {
+      "cls": "cup",
+      "recall": 0.2235294117647059,
+      "precision": 1.0,
+      "n_gt": 85,
+      "n_tp": 19,
+      "recall_3d": null,
+      "loc_recall": 0.43529411764705883,
+      "confusion": {
+        "book": 16,
+        "cake": 2
+      }
+    },
+    "bowl": {
+      "cls": "bowl",
+      "recall": 0.30612244897959184,
+      "precision": 1.0,
+      "n_gt": 98,
+      "n_tp": 30,
+      "recall_3d": null,
+      "loc_recall": 0.42857142857142855,
+      "confusion": {
+        "book": 6,
+        "cup": 3,
+        "cake": 3
+      }
+    },
+    "book": {
+      "cls": "book",
+      "recall": 0.4421052631578947,
+      "precision": 1.0,
+      "n_gt": 95,
+      "n_tp": 42,
+      "recall_3d": null,
+      "loc_recall": 0.47368421052631576,
+      "confusion": {
+        "cup": 1,
+        "bottle": 2
+      }
+    },
+    "banana": {
+      "cls": "banana",
+      "recall": 0.32989690721649484,
+      "precision": 1.0,
+      "n_gt": 97,
+      "n_tp": 32,
+      "recall_3d": null,
+      "loc_recall": 0.4329896907216495,
+      "confusion": {
+        "book": 6,
+        "bowl": 2,
+        "cake": 2
+      }
+    },
+    "apple": {
+      "cls": "apple",
+      "recall": 0.1553398058252427,
+      "precision": 1.0,
+      "n_gt": 103,
+      "n_tp": 16,
+      "recall_3d": null,
+      "loc_recall": 0.30097087378640774,
+      "confusion": {
+        "book": 9,
+        "bowl": 3,
+        "cake": 3
+      }
+    },
+    "orange": {
+      "cls": "orange",
+      "recall": 0.04081632653061224,
+      "precision": 1.0,
+      "n_gt": 98,
+      "n_tp": 4,
+      "recall_3d": null,
+      "loc_recall": 0.41836734693877553,
+      "confusion": {
+        "cake": 7,
+        "bowl": 21,
+        "apple": 8,
+        "cup": 1
+      }
+    },
+    "carrot": {
+      "cls": "carrot",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 90,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.37777777777777777,
+      "confusion": {
+        "cake": 20,
+        "bowl": 7,
+        "orange": 5,
+        "book": 2
+      }
+    },
+    "cake": {
+      "cls": "cake",
+      "recall": 0.4111111111111111,
+      "precision": 1.0,
+      "n_gt": 90,
+      "n_tp": 37,
+      "recall_3d": null,
+      "loc_recall": 0.5444444444444444,
+      "confusion": {
+        "book": 12
+      }
+    },
+    "donut": {
+      "cls": "donut",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 0,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.0,
+      "confusion": {}
+    },
+    "sports ball": {
+      "cls": "sports ball",
+      "recall": 0.13402061855670103,
+      "precision": 1.0,
+      "n_gt": 97,
+      "n_tp": 13,
+      "recall_3d": null,
+      "loc_recall": 0.3402061855670103,
+      "confusion": {
+        "book": 17,
+        "cake": 1,
+        "cup": 2
+      }
+    },
+    "vase": {
+      "cls": "vase",
+      "recall": 0.010752688172043012,
+      "precision": 1.0,
+      "n_gt": 93,
+      "n_tp": 1,
+      "recall_3d": null,
+      "loc_recall": 0.4731182795698925,
+      "confusion": {
+        "book": 20,
+        "apple": 7,
+        "bottle": 9,
+        "cake": 3,
+        "cup": 4
+      }
+    }
+  },
+  "oov_fp_by_conf": {
+    "0.15": 0.0,
+    "0.25": 0.0,
+    "0.40": 0.0,
+    "0.50": 0.0,
+    "0.70": 0.0,
+    "default": 0.0
+  },
+  "conf_default": 0.5,
+  "sources": [
+    "grasp_audit:alpha_0.8"
+  ],
+  "generated": "2026-08-14T17:58:22.667675+00:00",
+  "meta": {
+    "tier": "alpha_0.8",
+    "alpha": 0.8,
+    "grasp_vocab": [
+      "bottle",
+      "cup",
+      "bowl",
+      "book",
+      "banana",
+      "apple",
+      "orange",
+      "carrot",
+      "cake",
+      "donut",
+      "sports ball",
+      "vase"
+    ],
+    "model": "yolov8l-world-cc3m.pt",
+    "n_images": 150,
+    "n_gt": 1050,
+    "n_tp": 226
+  },
+  "injection_source": "2d",
+  "fusion_strategy": "2d"
+}

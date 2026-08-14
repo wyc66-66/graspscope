@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opengate-graspgate"
+version = "1.0.0"
+description = "OpenVocab-GraspGate: closed-loop deployability audit for open-vocabulary robotic grasping"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "OpenGate Contributors" }]
+keywords = ["robotics", "grasping", "open-vocabulary", "detection", "evaluation", "deployment", "gate"]
+dependencies = [
+  "numpy>=1.24",
+  "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+ui = [
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+]
+perception = [
+  "torch>=2.0",
+  "ultralytics>=8.1",
+]
+paper = [
+  "matplotlib>=3.7",
+  "markdown>=3.5",
+]
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.4",
+]
+
+[tool.setuptools.package-data]
+opengate = ["ui/static/*"]
+
+[project.urls]
+Homepage = "https://github.com/wyc66-66/opengate-graspgate"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

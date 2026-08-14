@@ -1,0 +1,35 @@
+{
+  "synthetic": {
+    "n_scenes": 750,
+    "alpha_grid": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "scenes_per_alpha": 150,
+    "image_dir": "D:\\ccfa\\opengate\\data\\grasp_synth\\images",
+    "coco_ann": "D:\\ccfa\\opengate\\data\\grasp_synth\\coco_flat\\annotations.json",
+    "in_vocab_gt_by_class": {
+      "cake": 369,
+      "bowl": 375,
+      "vase": 360,
+      "carrot": 344,
+      "book": 354,
+      "apple": 391,
+      "sports ball": 370,
+      "bottle": 384,
+      "cup": 355,
+      "banana": 368,
+      "orange": 380
+    }
+  },
+  "real": {
+    "n_scenes": 149,
+    "image_dir": "d:\\ccfa\\opengate\\data\\coco\\val2017",
+    "coco_ann": "D:\\ccfa\\opengate\\data\\grasp_real\\coco\\annotations.json",
+    "n_in_vocab_total": 591,
+    "n_oov_total": 333
+  }
+}

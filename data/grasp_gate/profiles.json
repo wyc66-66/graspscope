@@ -1,0 +1,537 @@
+{
+  "alpha_0.2": {
+    "alpha": 0.2,
+    "n_images": 150,
+    "n_gt": 300,
+    "n_tp": 52,
+    "n_loc": 80,
+    "recall_mean": 0.17368615975957466,
+    "loc_recall_mean": 0.43384524334251756,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3793,
+      "cup": 0.0714,
+      "bowl": 0.28,
+      "book": 0.5185,
+      "banana": 0.0952,
+      "apple": 0.0645,
+      "orange": 0.0,
+      "carrot": 0.0,
+      "cake": 0.3333,
+      "donut": 0.0,
+      "sports ball": 0.0968,
+      "vase": 0.0714
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.7586,
+      "cup": 0.3929,
+      "bowl": 0.48,
+      "book": 0.5185,
+      "banana": 0.1905,
+      "apple": 0.129,
+      "orange": 0.4412,
+      "carrot": 0.3158,
+      "cake": 0.4444,
+      "donut": 0.0,
+      "sports ball": 0.3871,
+      "vase": 0.7143
+    },
+    "confusion": {
+      "bottle": {
+        "book": 10,
+        "cup": 1
+      },
+      "cup": {
+        "book": 8,
+        "bowl": 1
+      },
+      "bowl": {
+        "cup": 2,
+        "book": 3
+      },
+      "banana": {
+        "bowl": 1,
+        "vase": 1
+      },
+      "apple": {
+        "bowl": 1,
+        "book": 1
+      },
+      "orange": {
+        "bowl": 9,
+        "apple": 2,
+        "cake": 3,
+        "book": 1
+      },
+      "carrot": {
+        "cake": 4,
+        "bowl": 1,
+        "orange": 1
+      },
+      "cake": {
+        "book": 3
+      },
+      "sports ball": {
+        "book": 7,
+        "cup": 2
+      },
+      "vase": {
+        "book": 8,
+        "bottle": 3,
+        "cake": 3,
+        "apple": 2,
+        "cup": 2
+      }
+    }
+  },
+  "alpha_0.4": {
+    "alpha": 0.4,
+    "n_images": 150,
+    "n_gt": 600,
+    "n_tp": 135,
+    "n_loc": 131,
+    "recall_mean": 0.22523648384925463,
+    "loc_recall_mean": 0.44911696718132815,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3077,
+      "cup": 0.1552,
+      "bowl": 0.3387,
+      "book": 0.6735,
+      "banana": 0.1833,
+      "apple": 0.1475,
+      "orange": 0.0714,
+      "carrot": 0.0,
+      "cake": 0.4182,
+      "donut": 0.0,
+      "sports ball": 0.1429,
+      "vase": 0.0392
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5769,
+      "cup": 0.5,
+      "bowl": 0.4677,
+      "book": 0.6939,
+      "banana": 0.25,
+      "apple": 0.1803,
+      "orange": 0.4464,
+      "carrot": 0.3191,
+      "cake": 0.5455,
+      "donut": 0.0,
+      "sports ball": 0.4898,
+      "vase": 0.4706
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 4,
+        "book": 9,
+        "cake": 1
+      },
+      "cup": {
+        "bowl": 3,
+        "book": 15,
+        "cake": 2
+      },
+      "bowl": {
+        "cup": 3,
+        "book": 5
+      },
+      "book": {
+        "cup": 1
+      },
+      "banana": {
+        "bowl": 3,
+        "cake": 1
+      },
+      "apple": {
+        "book": 1,
+        "bowl": 1
+      },
+      "orange": {
+        "bowl": 11,
+        "cake": 4,
+        "apple": 4,
+        "book": 2
+      },
+      "carrot": {
+        "cake": 6,
+        "apple": 1,
+        "bowl": 4,
+        "donut": 2,
+        "orange": 1,
+        "book": 1
+      },
+      "cake": {
+        "book": 6,
+        "donut": 1
+      },
+      "sports ball": {
+        "cup": 2,
+        "book": 15
+      },
+      "vase": {
+        "book": 12,
+        "bottle": 4,
+        "donut": 1,
+        "apple": 1,
+        "cake": 1,
+        "cup": 2,
+        "bowl": 1
+      }
+    }
+  },
+  "alpha_0.6": {
+    "alpha": 0.6,
+    "n_images": 150,
+    "n_gt": 750,
+    "n_tp": 131,
+    "n_loc": 177,
+    "recall_mean": 0.17314936550223742,
+    "loc_recall_mean": 0.4101919759467014,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.2763,
+      "cup": 0.0667,
+      "bowl": 0.3433,
+      "book": 0.4394,
+      "banana": 0.2647,
+      "apple": 0.08,
+      "orange": 0.0317,
+      "carrot": 0.0,
+      "cake": 0.2609,
+      "donut": 0.0,
+      "sports ball": 0.1127,
+      "vase": 0.029
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5921,
+      "cup": 0.3667,
+      "bowl": 0.4478,
+      "book": 0.4545,
+      "banana": 0.3971,
+      "apple": 0.1867,
+      "orange": 0.381,
+      "carrot": 0.3636,
+      "cake": 0.4348,
+      "donut": 0.0,
+      "sports ball": 0.3662,
+      "vase": 0.5217
+    },
+    "confusion": {
+      "bottle": {
+        "book": 19,
+        "cup": 4,
+        "cake": 1
+      },
+      "cup": {
+        "book": 14,
+        "cake": 3,
+        "bottle": 1
+      },
+      "bowl": {
+        "cake": 2,
+        "book": 4,
+        "cup": 1
+      },
+      "book": {
+        "cake": 1
+      },
+      "banana": {
+        "book": 6,
+        "cake": 1,
+        "bowl": 2
+      },
+      "apple": {
+        "book": 8
+      },
+      "orange": {
+        "bowl": 9,
+        "apple": 9,
+        "cake": 2,
+        "donut": 1,
+        "book": 1
+      },
+      "carrot": {
+        "bowl": 9,
+        "donut": 1,
+        "book": 5,
+        "cake": 9
+      },
+      "cake": {
+        "book": 12
+      },
+      "sports ball": {
+        "book": 15,
+        "cup": 3
+      },
+      "vase": {
+        "bottle": 9,
+        "cup": 4,
+        "book": 16,
+        "cake": 2,
+        "bowl": 2,
+        "apple": 1
+      }
+    }
+  },
+  "alpha_0.8": {
+    "alpha": 0.8,
+    "n_images": 150,
+    "n_gt": 1050,
+    "n_tp": 226,
+    "n_loc": 233,
+    "recall_mean": 0.2146715353642459,
+    "loc_recall_mean": 0.4374511651899293,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3077,
+      "cup": 0.2235,
+      "bowl": 0.3061,
+      "book": 0.4421,
+      "banana": 0.3299,
+      "apple": 0.1553,
+      "orange": 0.0408,
+      "carrot": 0.0,
+      "cake": 0.4111,
+      "donut": 0.0,
+      "sports ball": 0.134,
+      "vase": 0.0108
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5865,
+      "cup": 0.4353,
+      "bowl": 0.4286,
+      "book": 0.4737,
+      "banana": 0.433,
+      "apple": 0.301,
+      "orange": 0.4184,
+      "carrot": 0.3778,
+      "cake": 0.5444,
+      "donut": 0.0,
+      "sports ball": 0.3402,
+      "vase": 0.4731
+    },
+    "confusion": {
+      "bottle": {
+        "book": 22,
+        "cup": 6,
+        "cake": 1
+      },
+      "cup": {
+        "book": 16,
+        "cake": 2
+      },
+      "bowl": {
+        "book": 6,
+        "cup": 3,
+        "cake": 3
+      },
+      "book": {
+        "cup": 1,
+        "bottle": 2
+      },
+      "banana": {
+        "book": 6,
+        "bowl": 2,
+        "cake": 2
+      },
+      "apple": {
+        "book": 9,
+        "bowl": 3,
+        "cake": 3
+      },
+      "orange": {
+        "cake": 7,
+        "bowl": 21,
+        "apple": 8,
+        "cup": 1
+      },
+      "carrot": {
+        "cake": 20,
+        "bowl": 7,
+        "orange": 5,
+        "book": 2
+      },
+      "cake": {
+        "book": 12
+      },
+      "sports ball": {
+        "book": 17,
+        "cake": 1,
+        "cup": 2
+      },
+      "vase": {
+        "book": 20,
+        "apple": 7,
+        "bottle": 9,
+        "cake": 3,
+        "cup": 4
+      }
+    }
+  },
+  "alpha_1.0": {
+    "alpha": 1.0,
+    "n_images": 150,
+    "n_gt": 1350,
+    "n_tp": 264,
+    "n_loc": 283,
+    "recall_mean": 0.19585671814661498,
+    "loc_recall_mean": 0.4044655122797838,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3496,
+      "cup": 0.1855,
+      "bowl": 0.3171,
+      "book": 0.3761,
+      "banana": 0.1803,
+      "apple": 0.1653,
+      "orange": 0.0465,
+      "carrot": 0.0,
+      "cake": 0.3281,
+      "donut": 0.0,
+      "sports ball": 0.1639,
+      "vase": 0.042
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5935,
+      "cup": 0.4194,
+      "bowl": 0.439,
+      "book": 0.3846,
+      "banana": 0.3443,
+      "apple": 0.2562,
+      "orange": 0.4496,
+      "carrot": 0.3525,
+      "cake": 0.4297,
+      "donut": 0.0,
+      "sports ball": 0.377,
+      "vase": 0.4034
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 6,
+        "book": 24
+      },
+      "cup": {
+        "bottle": 3,
+        "book": 19,
+        "cake": 3,
+        "bowl": 3,
+        "apple": 1
+      },
+      "bowl": {
+        "book": 13,
+        "cup": 2
+      },
+      "book": {
+        "bottle": 1
+      },
+      "banana": {
+        "cake": 6,
+        "bowl": 4,
+        "book": 10
+      },
+      "apple": {
+        "bowl": 5,
+        "cake": 2,
+        "book": 4
+      },
+      "orange": {
+        "apple": 5,
+        "book": 4,
+        "bowl": 29,
+        "cake": 12,
+        "cup": 2
+      },
+      "carrot": {
+        "bowl": 14,
+        "cake": 19,
+        "book": 7,
+        "orange": 1,
+        "donut": 2
+      },
+      "cake": {
+        "book": 9,
+        "bottle": 1,
+        "bowl": 2,
+        "donut": 1
+      },
+      "sports ball": {
+        "cake": 1,
+        "book": 24,
+        "cup": 1
+      },
+      "vase": {
+        "bottle": 7,
+        "book": 21,
+        "apple": 5,
+        "bowl": 2,
+        "cup": 6,
+        "cake": 2
+      }
+    }
+  },
+  "real": {
+    "alpha": null,
+    "n_images": 133,
+    "n_gt": 591,
+    "n_tp": 248,
+    "n_loc": 19,
+    "recall_mean": 0.34832381311718125,
+    "loc_recall_mean": 0.3864116135774083,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.6,
+      "cup": 0.4561,
+      "bowl": 0.6142,
+      "book": 0.0702,
+      "banana": 0.1951,
+      "apple": 0.1765,
+      "orange": 0.1316,
+      "carrot": 0.0714,
+      "cake": 0.4583,
+      "donut": 0.0,
+      "sports ball": 0.5,
+      "vase": 0.5581
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.6316,
+      "cup": 0.4649,
+      "bowl": 0.622,
+      "book": 0.0702,
+      "banana": 0.2439,
+      "apple": 0.1765,
+      "orange": 0.3421,
+      "carrot": 0.0714,
+      "cake": 0.5,
+      "donut": 0.0,
+      "sports ball": 0.5,
+      "vase": 0.6279
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 3
+      },
+      "cup": {
+        "bottle": 1
+      },
+      "bowl": {
+        "cup": 1
+      },
+      "banana": {
+        "apple": 1,
+        "bowl": 1
+      },
+      "orange": {
+        "apple": 5,
+        "cup": 2,
+        "donut": 1
+      },
+      "cake": {
+        "donut": 1
+      },
+      "vase": {
+        "bottle": 3
+      }
+    }
+  }
+}
