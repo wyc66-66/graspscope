@@ -11,6 +11,7 @@ Outputs under docs/paper/graspgate/:
 from __future__ import annotations
 
 import base64
+import re
 import subprocess
 from pathlib import Path
 
@@ -62,9 +63,9 @@ hr{border:0;border-top:1px solid var(--line);margin:28px 0}
 
 
 def embed_figures(html: str) -> str:
-    """Replace ![caption](figures/figN.png) with inline base64 data URIs so the
-    HTML is fully standalone (works from file:// without a server)."""
-    import re
+    """Replace markdown-rendered <img src="figures/figN.png"> with inline base64
+    data URIs so the HTML is fully standalone (works from file:// without a
+    server). Runs after markdown conversion, so it matches the <img> tag form."""
 
     def repl(m: re.Match) -> str:
         cap, fname = m.group(1), m.group(2)
@@ -74,7 +75,11 @@ def embed_figures(html: str) -> str:
         b64 = base64.b64encode(path.read_bytes()).decode("ascii")
         return f'<figure><img alt="{cap}" src="data:image/png;base64,{b64}"/><figcaption>{cap}</figcaption></figure>'
 
-    return re.sub(r"!\[([^\]]*)\]\(figures/(fig\d+_\w+\.png)\)", repl, html)
+    return re.sub(
+        r'<img alt="([^"]*)" src="figures/(fig\d+_\w+\.png)"\s*/?>',
+        repl,
+        html,
+    )
 
 
 def main() -> int:

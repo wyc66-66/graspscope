@@ -37,8 +37,8 @@ direct evidence of methodological generality across embodied domains.
 ## 1. Introduction
 
 Robotic manipulation is moving from closed-vocabulary pipelines to open-vocabulary
-ones. Systems such as GraspVLA [wanghe2025graspvla], OpenVLA [kim2024openvla], and
-YOLO-World [cheng2024yolo_world] accept a natural-language vocabulary at inference
+ones. Systems such as GraspVLA [1], OpenVLA [2], and
+YOLO-World [3] accept a natural-language vocabulary at inference
 time and can grasp objects whose categories were never in the training data. For a
 retail-picking deployment — a robot that shelves groceries or fulfils online
 orders — this changes the operational question from *"which categories must we
@@ -46,15 +46,15 @@ support?"* to *"which words must we put in the vocabulary, and what happens if w
 miss some?"*
 
 The latter question has no quantitative answer today. Prior work evaluates
-open-vocabulary perception with recall/precision on fixed benchmarks [lin2014coco,
-cheng2024yolo_world], and evaluates grasping with success rate on physical or
-simulated trials [brohan2022rt1, gu2024openvla]. Neither measures the *causal path*
+open-vocabulary perception with recall/precision on fixed benchmarks [3, 4],
+and evaluates grasping with success rate on physical or
+simulated trials [2, 5]. Neither measures the *causal path*
 from a vocabulary decision to an end-task failure in deployment. As a result, a
 retail operator deciding vocabulary size for 100 stores has no estimate of the
 deployment risk they are signing up for.
 
 We address this gap with a closed-loop audit procedure (Fig. 1) that reuses a
-methodology previously validated for autonomous driving [opengate2025]. The
+methodology previously validated for autonomous driving [6]. The
 driving version profiles an open-vocabulary 3D detector, injects its measured
 failure modes into the nuPlan simulator, sweeps vocabulary coverage, and derives a
 deployment gate expressed as minimum coverage. Here we instantiate the same four
@@ -92,22 +92,22 @@ stages for grasping:
 
 ## 2. Related Work
 
-**Open-vocabulary perception.** YOLO-World [cheng2024yolo_world] and its
+**Open-vocabulary perception.** YOLO-World [3] and its
 successors enable open-set detection by grounding class prompts with text
-embeddings; Grounding DINO [liu2023groundingdino] and OWL-ViT [minderer2022owl]
-provide similar capability. Evaluation focuses on AP/recall on LVIS [gupta2019lvis]
-and COCO [lin2014coco], which measures perception quality in isolation, not
+embeddings; Grounding DINO [7] and OWL-ViT [8]
+provide similar capability. Evaluation focuses on AP/recall on LVIS [9]
+and COCO [4], which measures perception quality in isolation, not
 deployment consequence.
 
-**Robot learning and grasping.** RT-1 [brohan2022rt1], OpenVLA [kim2024openvla],
-and policy/grasp foundation models [wanghe2025graspvla] report success rates on
-benchmarks (e.g. LIBERO [liu2022libero], RLBench [james2020rlbench]). These
+**Robot learning and grasping.** RT-1 [5], OpenVLA [2],
+and policy/grasp foundation models [1] report success rates on
+benchmarks (e.g. LIBERO [10], RLBench [11]). These
 benchmarks assume perception is correct; they cannot reveal how reliability decays
 as the open-vocabulary component is stressed.
 
 **Closed-loop safety evaluation.** In autonomous driving, closed-loop simulation
-with injected perception failures is established practice [nuplan2021, zhang2023safety].
-Our driving-domain audit [opengate2025] extends this to open-vocabulary coverage.
+with injected perception failures is established practice [12, 13].
+Our driving-domain audit [6] extends this to open-vocabulary coverage.
 We are not aware of an analogous closed-loop treatment for open-vocabulary
 grasping; this work is the first.
 
@@ -264,7 +264,7 @@ not sufficient; detector quality on real imagery must also be held to account.
 ### 4.7 Cross-domain comparison (driving → grasping)
 
 The same four-stage audit was previously applied to open-vocabulary 3D detection
-for autonomous driving on nuScenes+nuPlan [opengate2025]. The driving frontier
+for autonomous driving on nuScenes+nuPlan [6]. The driving frontier
 collision rate is α = 0.2: 68%, α = 0.6: 60%, α = 0.8: 36%,
 α = 1.0: 8%, with a detected cliff separation of 5.6×.
 
@@ -311,15 +311,16 @@ theory of open-vocabulary deployability for embodied systems.
 
 ## References
 
-1. Cheng, T. et al. *YOLO-World: Real-Time Open-Vocabulary Object Detection.* CVPR 2024.
-2. Lin, T.-Y. et al. *Microsoft COCO: Common Objects in Context.* ECCV 2014.
-3. Kim, M. et al. *OpenVLA: An Open-Source Vision-Language-Action Model.* CoRL 2024.
-4. Brohan, A. et al. *RT-1: Robotics Transformer for Real-World Control at Scale.* RSS 2023.
-5. Liu, S. et al. *Grounding DINO: Marrying DINO with Grounded Pre-Training.* ICCV 2023.
-6. Minderer, M. et al. *Simple Open-Vocabulary Object Detection with Vision Transformers.* ECCV 2022.
-7. Gupta, A. et al. *LVIS: A Dataset for Large Vocabulary Instance Segmentation.* CVPR 2019.
-8. Liu, B. et al. *LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning.* NeurIPS 2022.
-9. James, S. et al. *RLBench: The Robot Learning Benchmark & Learning Environment.* RA-L 2020.
-10. Caesar, H. et al. *nuScenes: A Multimodal Dataset for Autonomous Driving.* CVPR 2020.
-11. Dauner, D. et al. *Navsim: Data-driven non-reactive autonomous vehicle simulation and benchmarking.* ICRA 2024.
-12. OpenGate. *OpenGate: Closed-Loop Deployability Audits for Open-Vocabulary Autonomous Driving.* Technical report, 2025.
+1. Deng, S., Yan, M., Wei, S., et al. *GraspVLA: a Grasping Foundation Model Pre-trained on Billion-scale Synthetic Action Data.* CoRL 2025. arXiv:2505.03233.
+2. Kim, M. et al. *OpenVLA: An Open-Source Vision-Language-Action Model.* CoRL 2024.
+3. Cheng, T. et al. *YOLO-World: Real-Time Open-Vocabulary Object Detection.* CVPR 2024.
+4. Lin, T.-Y. et al. *Microsoft COCO: Common Objects in Context.* ECCV 2014.
+5. Brohan, A. et al. *RT-1: Robotics Transformer for Real-World Control at Scale.* RSS 2023.
+6. OpenGate. *OpenGate: Closed-Loop Deployability Audits for Open-Vocabulary Autonomous Driving.* Technical report, 2025.
+7. Liu, S. et al. *Grounding DINO: Marrying DINO with Grounded Pre-Training.* ICCV 2023.
+8. Minderer, M. et al. *Simple Open-Vocabulary Object Detection with Vision Transformers.* ECCV 2022.
+9. Gupta, A. et al. *LVIS: A Dataset for Large Vocabulary Instance Segmentation.* CVPR 2019.
+10. Liu, B. et al. *LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning.* NeurIPS 2022.
+11. James, S. et al. *RLBench: The Robot Learning Benchmark & Learning Environment.* RA-L 2020.
+12. Caesar, H. et al. *nuScenes: A Multimodal Dataset for Autonomous Driving.* CVPR 2020.
+13. Dauner, D. et al. *Navsim: Data-driven non-reactive autonomous vehicle simulation and benchmarking.* ICRA 2024.
