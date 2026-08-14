@@ -17,7 +17,7 @@ from pathlib import Path
 _WORKSPACE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_WORKSPACE / "src"))
 
-from opengate.graspgate import scenes as gs
+from graspscope.grasp import scenes as gs
 
 ANN = _WORKSPACE / "data" / "coco" / "annotations" / "instances_val2017.json"
 IMG_BASE = "http://images.cocodataset.org/val2017/"
@@ -30,7 +30,7 @@ def _download_one(img_id: int, file_name: str, dest: Path, timeout: int = 90) ->
     for attempt in range(3):
         try:
             req = urllib.request.Request(
-                IMG_BASE + file_name, headers={"User-Agent": "OpenGateGraspGate/0.1"}
+                IMG_BASE + file_name, headers={"User-Agent": "GraspScope/0.1"}
             )
             with urllib.request.urlopen(req, timeout=timeout) as resp, dest.open("wb") as f:
                 while True:

@@ -1,4 +1,4 @@
-# OpenVocab-GraspGate closed-loop summary
+# GraspScope closed-loop summary
 
 - metric: failure_rate
 - exec_success anchor: 0.95

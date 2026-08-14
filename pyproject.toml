@@ -3,13 +3,13 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "opengate-graspgate"
+name = "graspscope"
 version = "1.0.0"
-description = "OpenVocab-GraspGate: closed-loop deployability audit for open-vocabulary robotic grasping"
+description = "GraspScope: closed-loop deployability audit for open-vocabulary robotic grasping"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "OpenGate Contributors" }]
+authors = [{ name = "GraspScope Contributors" }]
 keywords = ["robotics", "grasping", "open-vocabulary", "detection", "evaluation", "deployment", "gate"]
 dependencies = [
   "numpy>=1.24",
@@ -35,10 +35,10 @@ dev = [
 ]
 
 [tool.setuptools.package-data]
-opengate = ["ui/static/*"]
+graspscope = ["ui/static/*"]
 
 [project.urls]
-Homepage = "https://github.com/wyc66-66/opengate-graspgate"
+Homepage = "https://github.com/wyc66-66/graspscope"
 
 [tool.setuptools.packages.find]
 where = ["src"]

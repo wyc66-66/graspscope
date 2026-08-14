@@ -1,0 +1,372 @@
+{
+  "alpha_0.2": {
+    "alpha": 0.2,
+    "n_images": 150,
+    "n_gt": 300,
+    "n_tp": 70,
+    "n_loc": 53,
+    "recall_mean": 0.23513007656300342,
+    "loc_recall_mean": 0.4105811634165293,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3171,
+      "cup": 0.1212,
+      "bowl": 0.36,
+      "book": 0.6098,
+      "banana": 0.2273,
+      "apple": 0.1944,
+      "orange": 0.0513,
+      "carrot": 0.0
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.561,
+      "cup": 0.303,
+      "bowl": 0.52,
+      "book": 0.6098,
+      "banana": 0.3864,
+      "apple": 0.2222,
+      "orange": 0.4872,
+      "carrot": 0.1951
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 2,
+        "book": 8
+      },
+      "cup": {
+        "book": 6
+      },
+      "bowl": {
+        "book": 4
+      },
+      "banana": {
+        "bowl": 3,
+        "book": 4
+      },
+      "apple": {
+        "book": 1
+      },
+      "orange": {
+        "bowl": 9,
+        "book": 2,
+        "apple": 6
+      },
+      "carrot": {
+        "book": 3,
+        "bowl": 3,
+        "orange": 2
+      }
+    }
+  },
+  "alpha_0.4": {
+    "alpha": 0.4,
+    "n_images": 150,
+    "n_gt": 600,
+    "n_tp": 112,
+    "n_loc": 75,
+    "recall_mean": 0.18837725658876542,
+    "loc_recall_mean": 0.3163752818224329,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.2923,
+      "cup": 0.1395,
+      "bowl": 0.2973,
+      "book": 0.4444,
+      "banana": 0.225,
+      "apple": 0.1084,
+      "orange": 0.0,
+      "carrot": 0.0
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.4769,
+      "cup": 0.3023,
+      "bowl": 0.3649,
+      "book": 0.4444,
+      "banana": 0.275,
+      "apple": 0.1928,
+      "orange": 0.2941,
+      "carrot": 0.1806
+    },
+    "confusion": {
+      "bottle": {
+        "book": 10,
+        "cup": 2
+      },
+      "cup": {
+        "bowl": 2,
+        "book": 11,
+        "bottle": 1
+      },
+      "bowl": {
+        "book": 1,
+        "cup": 4
+      },
+      "banana": {
+        "book": 3,
+        "bowl": 1
+      },
+      "apple": {
+        "book": 6,
+        "bowl": 1
+      },
+      "orange": {
+        "bowl": 13,
+        "apple": 7
+      },
+      "carrot": {
+        "bowl": 8,
+        "orange": 3,
+        "book": 2
+      }
+    }
+  },
+  "alpha_0.6": {
+    "alpha": 0.6,
+    "n_images": 150,
+    "n_gt": 750,
+    "n_tp": 166,
+    "n_loc": 130,
+    "recall_mean": 0.22021024869102593,
+    "loc_recall_mean": 0.3954087801642552,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3103,
+      "cup": 0.24,
+      "bowl": 0.3068,
+      "book": 0.5,
+      "banana": 0.1771,
+      "apple": 0.1414,
+      "orange": 0.086,
+      "carrot": 0.0
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5632,
+      "cup": 0.45,
+      "bowl": 0.4318,
+      "book": 0.5,
+      "banana": 0.3125,
+      "apple": 0.2626,
+      "orange": 0.4409,
+      "carrot": 0.2022
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 5,
+        "book": 17
+      },
+      "cup": {
+        "book": 17,
+        "bottle": 1,
+        "bowl": 3
+      },
+      "bowl": {
+        "book": 9,
+        "cup": 2
+      },
+      "banana": {
+        "bowl": 7,
+        "book": 6
+      },
+      "apple": {
+        "book": 7,
+        "bowl": 5
+      },
+      "orange": {
+        "apple": 6,
+        "bowl": 23,
+        "book": 2,
+        "cup": 2
+      },
+      "carrot": {
+        "bowl": 11,
+        "orange": 3,
+        "book": 4
+      }
+    }
+  },
+  "alpha_0.8": {
+    "alpha": 0.8,
+    "n_images": 150,
+    "n_gt": 1050,
+    "n_tp": 221,
+    "n_loc": 188,
+    "recall_mean": 0.21201588878326155,
+    "loc_recall_mean": 0.3891217101633869,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.2463,
+      "cup": 0.2,
+      "bowl": 0.3876,
+      "book": 0.437,
+      "banana": 0.2061,
+      "apple": 0.175,
+      "orange": 0.0441,
+      "carrot": 0.0
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5597,
+      "cup": 0.44,
+      "bowl": 0.4884,
+      "book": 0.4593,
+      "banana": 0.3511,
+      "apple": 0.225,
+      "orange": 0.3824,
+      "carrot": 0.2071
+    },
+    "confusion": {
+      "bottle": {
+        "book": 36,
+        "cup": 6
+      },
+      "cup": {
+        "book": 28,
+        "bowl": 1,
+        "apple": 1
+      },
+      "bowl": {
+        "book": 10,
+        "cup": 3
+      },
+      "book": {
+        "bottle": 2,
+        "cup": 1
+      },
+      "banana": {
+        "bowl": 5,
+        "book": 14
+      },
+      "apple": {
+        "bowl": 4,
+        "book": 2
+      },
+      "orange": {
+        "book": 5,
+        "bowl": 33,
+        "apple": 7,
+        "cup": 1
+      },
+      "carrot": {
+        "bowl": 14,
+        "book": 8,
+        "apple": 1,
+        "orange": 6
+      }
+    }
+  },
+  "alpha_1.0": {
+    "alpha": 1.0,
+    "n_images": 150,
+    "n_gt": 1350,
+    "n_tp": 315,
+    "n_loc": 215,
+    "recall_mean": 0.23149796155686325,
+    "loc_recall_mean": 0.39146596981778314,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.3274,
+      "cup": 0.2047,
+      "bowl": 0.3448,
+      "book": 0.4826,
+      "banana": 0.259,
+      "apple": 0.1796,
+      "orange": 0.0417,
+      "carrot": 0.0122
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.5595,
+      "cup": 0.4503,
+      "bowl": 0.4138,
+      "book": 0.4826,
+      "banana": 0.3795,
+      "apple": 0.2814,
+      "orange": 0.3512,
+      "carrot": 0.2134
+    },
+    "confusion": {
+      "bottle": {
+        "book": 32,
+        "cup": 7
+      },
+      "cup": {
+        "book": 38,
+        "bowl": 3,
+        "bottle": 1
+      },
+      "bowl": {
+        "book": 10,
+        "cup": 2
+      },
+      "banana": {
+        "book": 15,
+        "bowl": 5
+      },
+      "apple": {
+        "book": 11,
+        "bowl": 6
+      },
+      "orange": {
+        "bowl": 35,
+        "book": 2,
+        "apple": 15
+      },
+      "carrot": {
+        "bowl": 19,
+        "orange": 7,
+        "book": 7
+      }
+    }
+  },
+  "real": {
+    "alpha": null,
+    "n_images": 122,
+    "n_gt": 520,
+    "n_tp": 209,
+    "n_loc": 16,
+    "recall_mean": 0.28782965183890263,
+    "loc_recall_mean": 0.3351996853343947,
+    "oov_fp_at_0.5": 0.0,
+    "per_class_recall": {
+      "bottle": 0.5895,
+      "cup": 0.4474,
+      "bowl": 0.6142,
+      "book": 0.0526,
+      "banana": 0.2195,
+      "apple": 0.1765,
+      "orange": 0.1316,
+      "carrot": 0.0714
+    },
+    "per_class_loc_recall": {
+      "bottle": 0.6211,
+      "cup": 0.4561,
+      "bowl": 0.622,
+      "book": 0.0526,
+      "banana": 0.2683,
+      "apple": 0.1765,
+      "orange": 0.3421,
+      "carrot": 0.1429
+    },
+    "confusion": {
+      "bottle": {
+        "cup": 3
+      },
+      "cup": {
+        "bottle": 1
+      },
+      "bowl": {
+        "cup": 1
+      },
+      "banana": {
+        "apple": 1,
+        "bowl": 1
+      },
+      "orange": {
+        "apple": 5,
+        "cup": 2,
+        "bowl": 1
+      },
+      "carrot": {
+        "bowl": 1
+      }
+    }
+  }
+}

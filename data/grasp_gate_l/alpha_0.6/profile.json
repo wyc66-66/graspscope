@@ -1,0 +1,201 @@
+{
+  "name": "grasp_alpha_0.6",
+  "classes": {
+    "bottle": {
+      "cls": "bottle",
+      "recall": 0.4342105263157895,
+      "precision": 1.0,
+      "n_gt": 76,
+      "n_tp": 33,
+      "recall_3d": null,
+      "loc_recall": 0.5789473684210527,
+      "confusion": {
+        "book": 5,
+        "cup": 3,
+        "cake": 3
+      }
+    },
+    "cup": {
+      "cls": "cup",
+      "recall": 0.18333333333333332,
+      "precision": 1.0,
+      "n_gt": 60,
+      "n_tp": 11,
+      "recall_3d": null,
+      "loc_recall": 0.25,
+      "confusion": {
+        "book": 2,
+        "bowl": 1,
+        "bottle": 1
+      }
+    },
+    "bowl": {
+      "cls": "bowl",
+      "recall": 0.3582089552238806,
+      "precision": 1.0,
+      "n_gt": 67,
+      "n_tp": 24,
+      "recall_3d": null,
+      "loc_recall": 0.4626865671641791,
+      "confusion": {
+        "cake": 6,
+        "cup": 1
+      }
+    },
+    "book": {
+      "cls": "book",
+      "recall": 0.25757575757575757,
+      "precision": 1.0,
+      "n_gt": 66,
+      "n_tp": 17,
+      "recall_3d": null,
+      "loc_recall": 0.25757575757575757,
+      "confusion": {}
+    },
+    "banana": {
+      "cls": "banana",
+      "recall": 0.22058823529411764,
+      "precision": 1.0,
+      "n_gt": 68,
+      "n_tp": 15,
+      "recall_3d": null,
+      "loc_recall": 0.36764705882352944,
+      "confusion": {
+        "cake": 3,
+        "book": 4,
+        "bowl": 3
+      }
+    },
+    "apple": {
+      "cls": "apple",
+      "recall": 0.09333333333333334,
+      "precision": 1.0,
+      "n_gt": 75,
+      "n_tp": 7,
+      "recall_3d": null,
+      "loc_recall": 0.13333333333333333,
+      "confusion": {
+        "cake": 2,
+        "bowl": 1
+      }
+    },
+    "orange": {
+      "cls": "orange",
+      "recall": 0.015873015873015872,
+      "precision": 1.0,
+      "n_gt": 63,
+      "n_tp": 1,
+      "recall_3d": null,
+      "loc_recall": 0.2222222222222222,
+      "confusion": {
+        "apple": 7,
+        "cake": 1,
+        "bowl": 4,
+        "cup": 1
+      }
+    },
+    "carrot": {
+      "cls": "carrot",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 66,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.21212121212121213,
+      "confusion": {
+        "orange": 3,
+        "bowl": 5,
+        "cake": 5,
+        "book": 1
+      }
+    },
+    "cake": {
+      "cls": "cake",
+      "recall": 0.391304347826087,
+      "precision": 1.0,
+      "n_gt": 69,
+      "n_tp": 27,
+      "recall_3d": null,
+      "loc_recall": 0.42028985507246375,
+      "confusion": {
+        "book": 2
+      }
+    },
+    "donut": {
+      "cls": "donut",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 0,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.0,
+      "confusion": {}
+    },
+    "sports ball": {
+      "cls": "sports ball",
+      "recall": 0.49295774647887325,
+      "precision": 1.0,
+      "n_gt": 71,
+      "n_tp": 35,
+      "recall_3d": null,
+      "loc_recall": 0.5915492957746479,
+      "confusion": {
+        "book": 7
+      }
+    },
+    "vase": {
+      "cls": "vase",
+      "recall": 0.08695652173913043,
+      "precision": 1.0,
+      "n_gt": 69,
+      "n_tp": 6,
+      "recall_3d": null,
+      "loc_recall": 0.4057971014492754,
+      "confusion": {
+        "book": 2,
+        "apple": 1,
+        "cup": 7,
+        "bottle": 7,
+        "cake": 3,
+        "bowl": 2
+      }
+    }
+  },
+  "oov_fp_by_conf": {
+    "0.15": 0.0,
+    "0.25": 0.0,
+    "0.40": 0.0,
+    "0.50": 0.0,
+    "0.70": 0.0,
+    "default": 0.0
+  },
+  "conf_default": 0.5,
+  "sources": [
+    "grasp_audit:alpha_0.6"
+  ],
+  "generated": "2026-08-14T19:58:32.834130+00:00",
+  "meta": {
+    "tier": "alpha_0.6",
+    "alpha": 0.6,
+    "grasp_vocab": [
+      "bottle",
+      "cup",
+      "bowl",
+      "book",
+      "banana",
+      "apple",
+      "orange",
+      "carrot",
+      "cake",
+      "donut",
+      "sports ball",
+      "vase"
+    ],
+    "model": "yolov8l-world-cc3m.pt",
+    "n_images": 150,
+    "n_gt": 750,
+    "n_tp": 176
+  },
+  "injection_source": "2d",
+  "fusion_strategy": "2d"
+}

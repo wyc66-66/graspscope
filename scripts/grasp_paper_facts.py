@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Collect every number that the OpenVocab-GraspGate paper cites.
+"""Collect every number that the GraspScope paper cites.
 
 Reads only real artifacts:
-- data/closedloop/metrics.json        driving-domain coverage sweep (OpenGate)
-- data/closedloop/error_profile.json  driving perception profile
-- data/grasp_closedloop/frontier.json grasp-domain closed-loop results
-- data/grasp_gate/profiles.json       grasp perception audit profiles
+- data/grasp_closedloop/frontier.json  grasp-domain closed-loop results
+- data/grasp_gate/profiles.json         grasp perception audit profiles
 - data/grasp_synth/synthetic_corpus.json  corpus stats
+- data/grasp_real/coco/annotations.json real pack stats
 
 Prints a stable facts table used by the paper and docs. Never fabricates.
 """
@@ -17,10 +16,6 @@ import sys
 from pathlib import Path
 
 _WORKSPACE = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(_WORKSPACE / "src"))
-
-from opengate.closedloop.frontier import build_frontier, load_scenarios
-
 ROOT = Path(_WORKSPACE)
 
 
@@ -31,22 +26,7 @@ def pct(x: float, digits: int = 1) -> str:
 def main() -> int:
     facts: list[tuple[str, str]] = []
 
-    # ---- driving domain ----
-    drv_metrics = ROOT / "data" / "closedloop" / "metrics.json"
-    if drv_metrics.is_file():
-        scenarios = load_scenarios(drv_metrics)
-        fr = build_frontier(scenarios, metric="collision_rate")
-        pts = sorted(fr.sorted_points(), key=lambda p: p.coverage)
-        facts.append(("driving|cliff_tier", fr.cliff_tier))
-        facts.append(("driving|cliff_coverage", f"{fr.cliff_coverage:g}"))
-        facts.append(("driving|cliff_separation", f"{fr.cliff_separation:.2f}x"))
-        for p in pts:
-            key = f"driving|collision_rate@{p.coverage:g}"
-            facts.append((key, pct(p.collision_rate, 1)))
-    else:
-        facts.append(("driving", "MISSING metrics.json"))
-
-    # ---- grasp domain ----
+    # ---- grasp closed-loop frontier ----
     gr = ROOT / "data" / "grasp_closedloop" / "frontier.json"
     if gr.is_file():
         d = json.loads(gr.read_text(encoding="utf-8"))
@@ -102,7 +82,32 @@ def main() -> int:
                     facts.append((f"percept|{tier}|loc_recall_mean",
                                   pct(sum(locs2) / len(locs2), 1)))
 
-    print("# OpenVocab-GraspGate paper facts (auto-collected)\n")
+    # ---- sensitivity sweeps ----
+    det = ROOT / "data" / "grasp_detector_scale" / "frontier.json"
+    if det.is_file():
+        d = json.loads(det.read_text(encoding="utf-8"))
+        facts.append(("sens|detector_l|cliff_coverage",
+                      f"{d['frontier']['cliff_coverage']:g}"))
+        facts.append(("sens|detector_l|gate_coverage_min",
+                      f"{d['gate']['coverage_min']:g}"))
+        facts.append(("sens|detector_l|failure_rate@1.0",
+                      pct(next(p["failure_rate"] for p in d["frontier"]["curve"]
+                               if p["coverage"] == 1.0), 1)))
+        facts.append(("sens|detector_l|failure_rate@0.2",
+                      pct(next(p["failure_rate"] for p in d["frontier"]["curve"]
+                               if p["coverage"] == 0.2), 1)))
+    v8 = ROOT / "data" / "grasp_vocab_size" / "frontier.json"
+    if v8.is_file():
+        d = json.loads(v8.read_text(encoding="utf-8"))
+        facts.append(("sens|vocab8|cliff_coverage",
+                      f"{d['frontier']['cliff_coverage']:g}"))
+        facts.append(("sens|vocab8|gate_coverage_min",
+                      f"{d['gate']['coverage_min']:g}"))
+        facts.append(("sens|vocab8|failure_rate@0.2",
+                      pct(next(p["failure_rate"] for p in d["frontier"]["curve"]
+                               if p["coverage"] == 0.2), 1)))
+
+    print("# GraspScope paper facts (auto-collected)\n")
     for k, v in facts:
         print(f"{k:<45} {v}")
     print("\n# end")

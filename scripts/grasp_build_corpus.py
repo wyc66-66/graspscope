@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the full OpenVocab-GraspGate corpus:
+"""Build the full GraspScope corpus:
 
 1. synthetic shelf sweep across the alpha grid (controlled coverage);
 2. real COCO scenes annotated for the grasp catalogue;
@@ -16,20 +16,58 @@ from pathlib import Path
 _WORKSPACE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_WORKSPACE / "src"))
 
-from opengate.graspgate import scenes as gs
+from graspscope.grasp import scenes as gs
 
-ANN = r"d:\ccfa\opengate\data\coco\annotations\instances_val2017.json"
-IMGS = r"d:\ccfa\opengate\data\coco\val2017"
+
+def _find_coco() -> tuple[Path, Path]:
+    """Locate the COCO val2017 annotations + images used for the crop bank.
+
+    Search order: repo-local data/coco, sibling data/coco, then the
+    GRASPSCOPE_COCO_ANN / GRASPSCOPE_COCO_IMGS env vars. Keeps the script
+    self-contained without hardcoding a machine-specific data root.
+    """
+    import os
+
+    ann_env = os.environ.get("GRASPSCOPE_COCO_ANN")
+    imgs_env = os.environ.get("GRASPSCOPE_COCO_IMGS")
+    candidates = [
+        (_WORKSPACE / "data" / "coco" / "annotations" / "instances_val2017.json",
+         _WORKSPACE / "data" / "coco" / "val2017"),
+        (_WORKSPACE.parent / "data" / "coco" / "annotations" / "instances_val2017.json",
+         _WORKSPACE.parent / "data" / "coco" / "val2017"),
+    ]
+    for ann, imgs in candidates:
+        if ann.is_file() and imgs.is_dir():
+            return ann, imgs
+    if ann_env and imgs_env:
+        return Path(ann_env), Path(imgs_env)
+    return candidates[0]
+
+
+DEFAULT_ANN, DEFAULT_IMGS = _find_coco()
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Build GraspGate corpus (synth + real)")
+    p = argparse.ArgumentParser(description="Build GraspScope corpus (synth + real)")
     p.add_argument("--synth-out", default="data/grasp_synth")
     p.add_argument("--real-out", default="data/grasp_real")
     p.add_argument("--per-alpha", type=int, default=150)
     p.add_argument("--max-real", type=int, default=150)
+    p.add_argument("--vocab-size", type=int, default=12, choices=[8, 12],
+                   help="deployment vocabulary size (8 or 12 classes)")
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--coco-ann", default=str(DEFAULT_ANN),
+                   help="COCO val2017 annotation file (for the crop bank + real pack)")
+    p.add_argument("--coco-imgs", default=str(DEFAULT_IMGS),
+                   help="COCO val2017 image directory")
     args = p.parse_args()
+
+    ANN = args.coco_ann
+    IMGS = args.coco_imgs
+    if not Path(ANN).is_file():
+        p.error(f"COCO annotations not found: {ANN}")
+
+    deploy_vocab = gs.DEPLOY_VOCAB if args.vocab_size >= 12 else gs.DEPLOY_VOCAB[:8]
 
     bank = gs.CropBank(ANN, IMGS)
     print(f"[corpus] crop bank: {len(bank.classes())} classes")
@@ -38,7 +76,8 @@ def main() -> int:
     synth_out = Path(args.synth_out)
     print(f"[corpus] emitting synthetic sweep -> {synth_out}")
     man = gs.emit_sweep(
-        bank, synth_out, scenes_per_alpha=args.per_alpha, n_objects=9, seed=args.seed
+        bank, synth_out, scenes_per_alpha=args.per_alpha, n_objects=9,
+        seed=args.seed, deploy_vocab=deploy_vocab,
     )
     print(f"[corpus] synthetic scenes: {len(man['all_scenes'])}")
 

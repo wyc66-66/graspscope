@@ -1,0 +1,191 @@
+{
+  "name": "grasp_alpha_0.2",
+  "classes": {
+    "bottle": {
+      "cls": "bottle",
+      "recall": 0.5862068965517241,
+      "precision": 1.0,
+      "n_gt": 29,
+      "n_tp": 17,
+      "recall_3d": null,
+      "loc_recall": 0.7241379310344828,
+      "confusion": {
+        "book": 4
+      }
+    },
+    "cup": {
+      "cls": "cup",
+      "recall": 0.14285714285714285,
+      "precision": 1.0,
+      "n_gt": 28,
+      "n_tp": 4,
+      "recall_3d": null,
+      "loc_recall": 0.21428571428571427,
+      "confusion": {
+        "book": 1,
+        "bowl": 1
+      }
+    },
+    "bowl": {
+      "cls": "bowl",
+      "recall": 0.36,
+      "precision": 1.0,
+      "n_gt": 25,
+      "n_tp": 9,
+      "recall_3d": null,
+      "loc_recall": 0.48,
+      "confusion": {
+        "book": 2,
+        "cup": 1
+      }
+    },
+    "book": {
+      "cls": "book",
+      "recall": 0.2222222222222222,
+      "precision": 1.0,
+      "n_gt": 27,
+      "n_tp": 6,
+      "recall_3d": null,
+      "loc_recall": 0.2222222222222222,
+      "confusion": {}
+    },
+    "banana": {
+      "cls": "banana",
+      "recall": 0.09523809523809523,
+      "precision": 1.0,
+      "n_gt": 21,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.09523809523809523,
+      "confusion": {}
+    },
+    "apple": {
+      "cls": "apple",
+      "recall": 0.0967741935483871,
+      "precision": 1.0,
+      "n_gt": 31,
+      "n_tp": 3,
+      "recall_3d": null,
+      "loc_recall": 0.16129032258064516,
+      "confusion": {
+        "cake": 2
+      }
+    },
+    "orange": {
+      "cls": "orange",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 34,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.3235294117647059,
+      "confusion": {
+        "bowl": 5,
+        "cup": 2,
+        "cake": 3,
+        "apple": 1
+      }
+    },
+    "carrot": {
+      "cls": "carrot",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 19,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.3684210526315789,
+      "confusion": {
+        "bowl": 2,
+        "orange": 2,
+        "cake": 3
+      }
+    },
+    "cake": {
+      "cls": "cake",
+      "recall": 0.4444444444444444,
+      "precision": 1.0,
+      "n_gt": 27,
+      "n_tp": 12,
+      "recall_3d": null,
+      "loc_recall": 0.48148148148148145,
+      "confusion": {
+        "book": 1
+      }
+    },
+    "donut": {
+      "cls": "donut",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 0,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.0,
+      "confusion": {}
+    },
+    "sports ball": {
+      "cls": "sports ball",
+      "recall": 0.6451612903225806,
+      "precision": 1.0,
+      "n_gt": 31,
+      "n_tp": 20,
+      "recall_3d": null,
+      "loc_recall": 0.7741935483870968,
+      "confusion": {
+        "book": 4
+      }
+    },
+    "vase": {
+      "cls": "vase",
+      "recall": 0.07142857142857142,
+      "precision": 1.0,
+      "n_gt": 28,
+      "n_tp": 2,
+      "recall_3d": null,
+      "loc_recall": 0.5,
+      "confusion": {
+        "book": 2,
+        "bottle": 4,
+        "apple": 2,
+        "cup": 3,
+        "cake": 1
+      }
+    }
+  },
+  "oov_fp_by_conf": {
+    "0.15": 0.0,
+    "0.25": 0.0,
+    "0.40": 0.0,
+    "0.50": 0.0,
+    "0.70": 0.0,
+    "default": 0.0
+  },
+  "conf_default": 0.5,
+  "sources": [
+    "grasp_audit:alpha_0.2"
+  ],
+  "generated": "2026-08-14T19:58:12.449588+00:00",
+  "meta": {
+    "tier": "alpha_0.2",
+    "alpha": 0.2,
+    "grasp_vocab": [
+      "bottle",
+      "cup",
+      "bowl",
+      "book",
+      "banana",
+      "apple",
+      "orange",
+      "carrot",
+      "cake",
+      "donut",
+      "sports ball",
+      "vase"
+    ],
+    "model": "yolov8l-world-cc3m.pt",
+    "n_images": 150,
+    "n_gt": 300,
+    "n_tp": 75
+  },
+  "injection_source": "2d",
+  "fusion_strategy": "2d"
+}

@@ -1,0 +1,360 @@
+{
+  "metric": "failure_rate",
+  "alphas": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "frontier": {
+    "metric": "failure_rate",
+    "method": "max-two-sample-separation",
+    "monotonic": true,
+    "cliff_tier": "alpha_0.4",
+    "cliff_coverage": 0.4,
+    "cliff_separation": 5.655,
+    "cliff_coverage_ci": [
+      0.4,
+      0.4
+    ],
+    "cliff_separation_ci": [
+      4.681,
+      6.891
+    ],
+    "n_bootstrap": 1000,
+    "curve": [
+      {
+        "coverage": 1.0,
+        "collision_rate": 0.0,
+        "collision_rate_ci_lo": 0.0,
+        "collision_rate_ci_hi": 0.0050960307841859615,
+        "intervention_rate": 0.0,
+        "intervention_rate_ci_lo": 0.0,
+        "intervention_rate_ci_hi": 0.0050960307841859615,
+        "failure_rate": 0.07866666666666666,
+        "failure_rate_ci_lo": 0.061475712477522024,
+        "failure_rate_ci_hi": 0.10015187612995201
+      },
+      {
+        "coverage": 0.8,
+        "collision_rate": 0.0,
+        "collision_rate_ci_lo": 0.0,
+        "collision_rate_ci_hi": 0.0050960307841859615,
+        "intervention_rate": 0.0,
+        "intervention_rate_ci_lo": 0.0,
+        "intervention_rate_ci_hi": 0.0050960307841859615,
+        "failure_rate": 0.08133333333333333,
+        "failure_rate_ci_lo": 0.06383734415548951,
+        "failure_rate_ci_hi": 0.10309639895446886
+      },
+      {
+        "coverage": 0.6,
+        "collision_rate": 0.0,
+        "collision_rate_ci_lo": 0.0,
+        "collision_rate_ci_hi": 0.0050960307841859615,
+        "intervention_rate": 0.0,
+        "intervention_rate_ci_lo": 0.0,
+        "intervention_rate_ci_hi": 0.0050960307841859615,
+        "failure_rate": 0.21066666666666667,
+        "failure_rate_ci_lo": 0.18299367041244374,
+        "failure_rate_ci_hi": 0.2412885660680052
+      },
+      {
+        "coverage": 0.4,
+        "collision_rate": 0.0,
+        "collision_rate_ci_lo": 0.0,
+        "collision_rate_ci_hi": 0.0050960307841859615,
+        "intervention_rate": 0.0,
+        "intervention_rate_ci_lo": 0.0,
+        "intervention_rate_ci_hi": 0.0050960307841859615,
+        "failure_rate": 0.2786666666666667,
+        "failure_rate_ci_lo": 0.24776907828438882,
+        "failure_rate_ci_hi": 0.31182009800941085
+      },
+      {
+        "coverage": 0.2,
+        "collision_rate": 0.0,
+        "collision_rate_ci_lo": 0.0,
+        "collision_rate_ci_hi": 0.0050960307841859615,
+        "intervention_rate": 0.0,
+        "intervention_rate_ci_lo": 0.0,
+        "intervention_rate_ci_hi": 0.0050960307841859615,
+        "failure_rate": 0.5053333333333333,
+        "failure_rate_ci_lo": 0.4696149303574538,
+        "failure_rate_ci_hi": 0.5409973786475148
+      }
+    ]
+  },
+  "failure_decomposition": {
+    "alpha_0.2": {
+      "drop": 0.004,
+      "empty_grasp": 0.3547,
+      "success": 0.4947,
+      "wrong_object": 0.1467
+    },
+    "alpha_0.4": {
+      "drop": 0.0067,
+      "empty_grasp": 0.148,
+      "success": 0.7213,
+      "wrong_object": 0.124
+    },
+    "alpha_0.6": {
+      "drop": 0.004,
+      "empty_grasp": 0.0947,
+      "success": 0.7893,
+      "wrong_object": 0.112
+    },
+    "alpha_0.8": {
+      "drop": 0.0067,
+      "empty_grasp": 0.0187,
+      "success": 0.9187,
+      "wrong_object": 0.056
+    },
+    "alpha_1.0": {
+      "drop": 0.012,
+      "empty_grasp": 0.012,
+      "success": 0.9213,
+      "wrong_object": 0.0547
+    }
+  },
+  "adjacent_pairs": [
+    {
+      "from": "alpha_0.2",
+      "to": "alpha_0.4",
+      "fail_rate_from": 0.5053,
+      "fail_rate_to": 0.2787,
+      "p_fisher": 0.0,
+      "p_ztest": 0.0,
+      "q_fdr": 0.0
+    },
+    {
+      "from": "alpha_0.4",
+      "to": "alpha_0.6",
+      "fail_rate_from": 0.2787,
+      "fail_rate_to": 0.2107,
+      "p_fisher": 0.00264,
+      "p_ztest": 0.00219,
+      "q_fdr": 0.00353
+    },
+    {
+      "from": "alpha_0.6",
+      "to": "alpha_0.8",
+      "fail_rate_from": 0.2107,
+      "fail_rate_to": 0.0813,
+      "p_fisher": 0.0,
+      "p_ztest": 0.0,
+      "q_fdr": 0.0
+    },
+    {
+      "from": "alpha_0.8",
+      "to": "alpha_1.0",
+      "fail_rate_from": 0.0813,
+      "fail_rate_to": 0.0787,
+      "p_fisher": 0.92422,
+      "p_ztest": 0.84904,
+      "q_fdr": 0.92422
+    }
+  ],
+  "gate": {
+    "coverage_min": 0.484,
+    "found": true,
+    "interp_from": 0.279,
+    "interp_to": 0.211,
+    "tier_below": "alpha_0.4",
+    "tier_above": "alpha_0.6",
+    "max_fail_rate": 0.25,
+    "cliff_tier": "alpha_0.4"
+  },
+  "real_anchor": {
+    "n": 50,
+    "success_rate": 0.66,
+    "success_ci": [
+      0.5215,
+      0.7756
+    ],
+    "failure_rate": 0.34
+  },
+  "scenes": [
+    {
+      "scene_id": "synth_00001_a02",
+      "tier": "alpha_0.2",
+      "coverage": 0.2,
+      "image_url": "/api/graspscope/scene?f=synth_00001_a02.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00002_a02",
+      "tier": "alpha_0.2",
+      "coverage": 0.2,
+      "image_url": "/api/graspscope/scene?f=synth_00002_a02.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00151_a04",
+      "tier": "alpha_0.4",
+      "coverage": 0.4,
+      "image_url": "/api/graspscope/scene?f=synth_00151_a04.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00152_a04",
+      "tier": "alpha_0.4",
+      "coverage": 0.4,
+      "image_url": "/api/graspscope/scene?f=synth_00152_a04.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00301_a06",
+      "tier": "alpha_0.6",
+      "coverage": 0.6,
+      "image_url": "/api/graspscope/scene?f=synth_00301_a06.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00302_a06",
+      "tier": "alpha_0.6",
+      "coverage": 0.6,
+      "image_url": "/api/graspscope/scene?f=synth_00302_a06.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00451_a08",
+      "tier": "alpha_0.8",
+      "coverage": 0.8,
+      "image_url": "/api/graspscope/scene?f=synth_00451_a08.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00452_a08",
+      "tier": "alpha_0.8",
+      "coverage": 0.8,
+      "image_url": "/api/graspscope/scene?f=synth_00452_a08.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00601_a10",
+      "tier": "alpha_1",
+      "coverage": 1.0,
+      "image_url": "/api/graspscope/scene?f=synth_00601_a10.jpg",
+      "success": true
+    },
+    {
+      "scene_id": "synth_00602_a10",
+      "tier": "alpha_1",
+      "coverage": 1.0,
+      "image_url": "/api/graspscope/scene?f=synth_00602_a10.jpg",
+      "success": true
+    }
+  ],
+  "cases": [
+    {
+      "scene_id": "synth_00005_a02",
+      "tier": "alpha_0.2",
+      "coverage": 0.2,
+      "success": true,
+      "failure_type": "success",
+      "target_cls": "sports ball",
+      "n_attempts": 2,
+      "image_url": "/api/graspscope/scene?f=synth_00005_a02.jpg"
+    },
+    {
+      "scene_id": "synth_00001_a02",
+      "tier": "alpha_0.2",
+      "coverage": 0.2,
+      "success": false,
+      "failure_type": "empty_grasp",
+      "target_cls": null,
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00001_a02.jpg"
+    },
+    {
+      "scene_id": "synth_00153_a04",
+      "tier": "alpha_0.4",
+      "coverage": 0.4,
+      "success": true,
+      "failure_type": "success",
+      "target_cls": "cake",
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00153_a04.jpg"
+    },
+    {
+      "scene_id": "synth_00151_a04",
+      "tier": "alpha_0.4",
+      "coverage": 0.4,
+      "success": false,
+      "failure_type": "empty_grasp",
+      "target_cls": null,
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00151_a04.jpg"
+    },
+    {
+      "scene_id": "synth_00301_a06",
+      "tier": "alpha_0.6",
+      "coverage": 0.6,
+      "success": true,
+      "failure_type": "success",
+      "target_cls": "cake",
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00301_a06.jpg"
+    },
+    {
+      "scene_id": "synth_00302_a06",
+      "tier": "alpha_0.6",
+      "coverage": 0.6,
+      "success": false,
+      "failure_type": "empty_grasp",
+      "target_cls": null,
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00302_a06.jpg"
+    },
+    {
+      "scene_id": "synth_00451_a08",
+      "tier": "alpha_0.8",
+      "coverage": 0.8,
+      "success": true,
+      "failure_type": "success",
+      "target_cls": "cake",
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00451_a08.jpg"
+    },
+    {
+      "scene_id": "synth_00458_a08",
+      "tier": "alpha_0.8",
+      "coverage": 0.8,
+      "success": false,
+      "failure_type": "drop",
+      "target_cls": "bottle",
+      "n_attempts": 2,
+      "image_url": "/api/graspscope/scene?f=synth_00458_a08.jpg"
+    },
+    {
+      "scene_id": "synth_00601_a10",
+      "tier": "alpha_1.0",
+      "coverage": 1.0,
+      "success": true,
+      "failure_type": "success",
+      "target_cls": "bottle",
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00601_a10.jpg"
+    },
+    {
+      "scene_id": "synth_00616_a10",
+      "tier": "alpha_1.0",
+      "coverage": 1.0,
+      "success": false,
+      "failure_type": "wrong_object",
+      "target_cls": "cake",
+      "n_attempts": 1,
+      "image_url": "/api/graspscope/scene?f=synth_00616_a10.jpg"
+    }
+  ],
+  "params": {
+    "exec_success": 0.92,
+    "phantom_rate": 0.35,
+    "max_fail_rate": 0.25,
+    "n_scenes": 150,
+    "seed": 0
+  },
+  "exported_at": "2026-08-15T03:59:09"
+}

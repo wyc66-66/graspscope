@@ -1,10 +1,10 @@
-# OpenVocab-GraspGate
+# GraspScope
 
 Closed-loop deployability audit for **open-vocabulary robotic grasping**:
 turn the vocabulary decision — *which object names do I ship to the robot?* —
 from intuition into a number with a confidence interval.
 
-Same methodology as the driving-domain gate (nuScenes + nuPlan): profile the
+Same methodology as the grasp-deployability audit: profile the
 perception stack → inject measured failures into a closed-loop simulator → sweep
 vocabulary coverage α → find the safety cliff → derive a deployment gate.
 
@@ -40,6 +40,12 @@ Three findings:
 4. **Real anchor: 72% success on real COCO scenes**, well below synthetic
    α=1.0 (90%). Vocabulary coverage is necessary but not sufficient — detector
    quality matters on real data.
+5. **Sensitivity.** The law's form survives both sweeps:
+   - *Detector scale* (s → l): gate relaxes **0.653 → 0.484** (better
+     perception needs less vocabulary coverage; cliff stays at α=0.4).
+   - *Vocabulary size* (12 → 8): gate **0.653 → 0.545** (dropping the four
+     confusable classes reduces label confusion). Vocabulary *composition*
+     matters as much as vocabulary count.
 
 ## Reproduce
 
@@ -55,27 +61,32 @@ python scripts/grasp_audit_perception.py
 # 3. closed-loop sweep -> data/grasp_closedloop/frontier.json
 python scripts/grasp_run_closedloop.py
 
-# 4. dashboard
-python -m opengate ui   # http://127.0.0.1:8787/graspgate
+# 4. sensitivity sweeps -> data/grasp_detector_scale/, data/grasp_vocab_size/
+python scripts/grasp_sensitivity_sweep.py --gpu-model-dir <dir-with-weights>
 
-# 5. paper facts + figures + PDF (docs/paper/graspgate/)
+# 5. dashboard
+python -m graspscope ui   # http://127.0.0.1:8787/graspscope
+
+# 6. paper facts + figures + PDF (docs/paper/graspscope/)
 python scripts/grasp_paper_facts.py
-python scripts/render_graspgate_paper_figures.py
-python scripts/render_graspgate_paper.py
+python scripts/render_graspscope_paper_figures.py
+python scripts/render_graspscope_paper.py
 ```
 
 The committed `data/` already contains the generated corpus, perception
-profiles, and closed-loop results, so steps 1–2 are only needed to regenerate.
+profiles, closed-loop results, and both sensitivity sweeps, so steps 1–4 are
+only needed to regenerate.
 
 ## Paper
 
-[docs/paper/graspgate/graspgate_paper.pdf](docs/paper/graspgate/graspgate_paper.pdf)
+[docs/paper/graspscope/graspscope_paper.pdf](docs/paper/graspscope/graspscope_paper.pdf)
 — full English technical report (arXiv-style) with all figures.
 
-## Why a cross-domain gate
+## Why a deployability audit
 
-The identical pipeline — `PerceptionErrorProfile` → closed-loop sim → coverage
-sweep → cliff + gate — runs on autonomous driving (nuPlan, cliff separation
-5.6×) and on robotic grasping (GraspEnv, 5.5×). Same qualitative law, same
-statistical machinery (Wilson CI, Fisher-exact, BH-FDR). That is the point:
-deployability auditing generalizes across embodied domains.
+Deploying an open-vocabulary grasp stack is a *vocabulary* decision: which
+object names to ship. The identical pipeline — `PerceptionErrorProfile` →
+closed-loop simulator → coverage sweep → cliff + gate — turns that decision
+into a number with a confidence interval. The statistical machinery (Wilson CI,
+Fisher-exact, BH-FDR) is deliberately small and transparent, so the audit is a
+procedure any deployer can rerun on their own scenes and vocabulary.

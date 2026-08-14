@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Perception audit for the OpenVocab-GraspGate corpus.
+"""Perception audit for the GraspScope corpus.
 
 Runs YOLO-World (CC3M open-vocab weights) over:
 
@@ -27,8 +27,8 @@ from pathlib import Path
 _WORKSPACE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_WORKSPACE / "src"))
 
-from opengate.closedloop.error_profile import ClassProfile, PerceptionErrorProfile
-from opengate.graspgate import scenes as gs
+from graspscope.closedloop.error_profile import ClassProfile, PerceptionErrorProfile
+from graspscope.grasp import scenes as gs
 
 CONF_GRID = [0.15, 0.25, 0.4, 0.5, 0.7]
 
@@ -67,13 +67,13 @@ def run_audit(
     max_images: int = 10000,
 ) -> dict:
     """Run YOLO-World over a COCO pack; return per-class tp/gt and OOV-FP sweep."""
-    from opengate.adapters.yolo_world import YoloWorldAdapter
+    from graspscope.adapters.yolo_world import YoloWorldAdapter
 
     anns, imgs, cat_name = _load_coco(coco_ann)
     vset = set(vocab)
 
     adapter = YoloWorldAdapter({"model": model, "conf": conf, "imgsz": imgsz, "cache_dir": None})
-    from opengate.schema import Sample
+    from graspscope.schema import Sample
 
     samples = []
     img_order = sorted(imgs.values(), key=lambda i: int(i["id"]))
@@ -243,11 +243,13 @@ def main() -> int:
     ap.add_argument("--model", default="yolov8s-world.pt")
     ap.add_argument("--conf", type=float, default=0.15)
     ap.add_argument("--imgsz", type=int, default=640)
+    ap.add_argument("--vocab-size", type=int, default=12, choices=[8, 12],
+                    help="deployment vocabulary size")
     ap.add_argument("--per-alpha-subsample", type=int, default=0,
                     help="cap scenes per alpha (0 = all) for smoke tests")
     args = ap.parse_args()
 
-    vocab = gs.DEPLOY_VOCAB
+    vocab = gs.DEPLOY_VOCAB if args.vocab_size >= 12 else gs.DEPLOY_VOCAB[:8]
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 

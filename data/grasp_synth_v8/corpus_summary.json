@@ -1,0 +1,32 @@
+{
+  "synthetic": {
+    "n_scenes": 750,
+    "alpha_grid": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "scenes_per_alpha": 150,
+    "image_dir": "data/grasp_synth_v8/images",
+    "coco_ann": "data/grasp_synth_v8/coco_flat/annotations.json",
+    "in_vocab_gt_by_class": {
+      "book": 518,
+      "cup": 515,
+      "orange": 504,
+      "apple": 505,
+      "bottle": 495,
+      "carrot": 506,
+      "banana": 517,
+      "bowl": 490
+    }
+  },
+  "real": {
+    "n_scenes": 149,
+    "image_dir": "data/coco/val2017",
+    "coco_ann": "data/grasp_real_v8/coco/annotations.json",
+    "n_in_vocab_total": 591,
+    "n_oov_total": 333
+  }
+}

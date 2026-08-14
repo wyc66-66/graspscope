@@ -9,8 +9,8 @@
       1.0
     ],
     "scenes_per_alpha": 150,
-    "image_dir": "D:\\ccfa\\opengate\\data\\grasp_synth\\images",
-    "coco_ann": "D:\\ccfa\\opengate\\data\\grasp_synth\\coco_flat\\annotations.json",
+    "image_dir": "data/grasp_synth/images",
+    "coco_ann": "data/grasp_synth/coco_flat/annotations.json",
     "in_vocab_gt_by_class": {
       "cake": 369,
       "bowl": 375,
@@ -27,8 +27,8 @@
   },
   "real": {
     "n_scenes": 149,
-    "image_dir": "d:\\ccfa\\opengate\\data\\coco\\val2017",
-    "coco_ann": "D:\\ccfa\\opengate\\data\\grasp_real\\coco\\annotations.json",
+    "image_dir": "data/coco/val2017",
+    "coco_ann": "data/grasp_real/coco/annotations.json",
     "n_in_vocab_total": 591,
     "n_oov_total": 333
   }

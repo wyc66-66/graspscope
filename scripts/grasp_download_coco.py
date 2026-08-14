@@ -55,7 +55,7 @@ def _download(url: str, dest: Path, timeout: int = 90) -> bool:
     if dest.is_file() and dest.stat().st_size > 0:
         return True
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "OpenGateGraspGate/0.1"})
+        req = urllib.request.Request(url, headers={"User-Agent": "GraspScope/0.1"})
         with urllib.request.urlopen(req, timeout=timeout) as resp, dest.open("wb") as f:
             while True:
                 chunk = resp.read(1024 * 256)

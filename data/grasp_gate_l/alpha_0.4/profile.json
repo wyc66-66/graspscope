@@ -1,0 +1,201 @@
+{
+  "name": "grasp_alpha_0.4",
+  "classes": {
+    "bottle": {
+      "cls": "bottle",
+      "recall": 0.4423076923076923,
+      "precision": 1.0,
+      "n_gt": 52,
+      "n_tp": 23,
+      "recall_3d": null,
+      "loc_recall": 0.5384615384615384,
+      "confusion": {
+        "cup": 1,
+        "book": 3,
+        "cake": 1
+      }
+    },
+    "cup": {
+      "cls": "cup",
+      "recall": 0.25862068965517243,
+      "precision": 1.0,
+      "n_gt": 58,
+      "n_tp": 15,
+      "recall_3d": null,
+      "loc_recall": 0.3793103448275862,
+      "confusion": {
+        "bowl": 3,
+        "book": 3,
+        "cake": 1
+      }
+    },
+    "bowl": {
+      "cls": "bowl",
+      "recall": 0.22580645161290322,
+      "precision": 1.0,
+      "n_gt": 62,
+      "n_tp": 14,
+      "recall_3d": null,
+      "loc_recall": 0.4032258064516129,
+      "confusion": {
+        "cake": 2,
+        "cup": 8,
+        "book": 1
+      }
+    },
+    "book": {
+      "cls": "book",
+      "recall": 0.2653061224489796,
+      "precision": 1.0,
+      "n_gt": 49,
+      "n_tp": 13,
+      "recall_3d": null,
+      "loc_recall": 0.32653061224489793,
+      "confusion": {
+        "bottle": 2,
+        "cake": 1
+      }
+    },
+    "banana": {
+      "cls": "banana",
+      "recall": 0.2,
+      "precision": 1.0,
+      "n_gt": 60,
+      "n_tp": 12,
+      "recall_3d": null,
+      "loc_recall": 0.23333333333333334,
+      "confusion": {
+        "bowl": 2
+      }
+    },
+    "apple": {
+      "cls": "apple",
+      "recall": 0.18032786885245902,
+      "precision": 1.0,
+      "n_gt": 61,
+      "n_tp": 11,
+      "recall_3d": null,
+      "loc_recall": 0.26229508196721313,
+      "confusion": {
+        "bowl": 3,
+        "cake": 2
+      }
+    },
+    "orange": {
+      "cls": "orange",
+      "recall": 0.05357142857142857,
+      "precision": 1.0,
+      "n_gt": 56,
+      "n_tp": 3,
+      "recall_3d": null,
+      "loc_recall": 0.26785714285714285,
+      "confusion": {
+        "bowl": 7,
+        "cake": 2,
+        "cup": 1,
+        "apple": 2
+      }
+    },
+    "carrot": {
+      "cls": "carrot",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 47,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.3191489361702128,
+      "confusion": {
+        "cup": 1,
+        "cake": 7,
+        "bowl": 3,
+        "orange": 4
+      }
+    },
+    "cake": {
+      "cls": "cake",
+      "recall": 0.5272727272727272,
+      "precision": 1.0,
+      "n_gt": 55,
+      "n_tp": 29,
+      "recall_3d": null,
+      "loc_recall": 0.5272727272727272,
+      "confusion": {}
+    },
+    "donut": {
+      "cls": "donut",
+      "recall": 0.0,
+      "precision": 1.0,
+      "n_gt": 0,
+      "n_tp": 0,
+      "recall_3d": null,
+      "loc_recall": 0.0,
+      "confusion": {}
+    },
+    "sports ball": {
+      "cls": "sports ball",
+      "recall": 0.5306122448979592,
+      "precision": 1.0,
+      "n_gt": 49,
+      "n_tp": 26,
+      "recall_3d": null,
+      "loc_recall": 0.6122448979591837,
+      "confusion": {
+        "book": 4
+      }
+    },
+    "vase": {
+      "cls": "vase",
+      "recall": 0.058823529411764705,
+      "precision": 1.0,
+      "n_gt": 51,
+      "n_tp": 3,
+      "recall_3d": null,
+      "loc_recall": 0.43137254901960786,
+      "confusion": {
+        "bottle": 9,
+        "book": 2,
+        "cup": 4,
+        "apple": 1,
+        "cake": 1,
+        "bowl": 2
+      }
+    }
+  },
+  "oov_fp_by_conf": {
+    "0.15": 0.0,
+    "0.25": 0.0,
+    "0.40": 0.0,
+    "0.50": 0.0,
+    "0.70": 0.0,
+    "default": 0.0
+  },
+  "conf_default": 0.5,
+  "sources": [
+    "grasp_audit:alpha_0.4"
+  ],
+  "generated": "2026-08-14T19:58:22.671365+00:00",
+  "meta": {
+    "tier": "alpha_0.4",
+    "alpha": 0.4,
+    "grasp_vocab": [
+      "bottle",
+      "cup",
+      "bowl",
+      "book",
+      "banana",
+      "apple",
+      "orange",
+      "carrot",
+      "cake",
+      "donut",
+      "sports ball",
+      "vase"
+    ],
+    "model": "yolov8l-world-cc3m.pt",
+    "n_images": 150,
+    "n_gt": 600,
+    "n_tp": 149
+  },
+  "injection_source": "2d",
+  "fusion_strategy": "2d"
+}

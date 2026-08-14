@@ -32,14 +32,14 @@ from pathlib import Path
 _WORKSPACE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_WORKSPACE / "src"))
 
-from opengate.closedloop.error_profile import PerceptionErrorProfile
-from opengate.closedloop.frontier import (
+from graspscope.closedloop.error_profile import PerceptionErrorProfile
+from graspscope.closedloop.frontier import (
     benjamini_hochberg,
     build_frontier,
     two_proportion_test,
     wilson_ci,
 )
-from opengate.graspgate.grasp_env import GraspEnv
+from graspscope.grasp.grasp_env import GraspEnv
 
 
 def main() -> int:
@@ -64,13 +64,15 @@ def main() -> int:
 
     alphas = [0.2, 0.4, 0.6, 0.8, 1.0]
     profiles_by_alpha: dict[str, PerceptionErrorProfile] = {}
+    profiles_dir = Path(args.profiles).parent
     for a in alphas:
         key = f"alpha_{a:.1f}"
         p = profiles.get(key)
         if p is None:
             print(f"WARN: no profile for {key}; skipping")
             continue
-        prof_path = out.parent / "grasp_gate" / key / "profile.json"
+        # profiles live alongside --profiles (one dir per tier), not hardcoded
+        prof_path = profiles_dir / key / "profile.json"
         profiles_by_alpha[key] = PerceptionErrorProfile.load(prof_path)
 
     scenarios = GraspEnv.build_sweep_scenarios(
@@ -79,9 +81,11 @@ def main() -> int:
     print(f"[closedloop] {len(scenarios)} scenarios across {len(alphas)} tiers x {args.seeds} seeds")
 
     # ---- run closed loop over seeds (scene set is fixed; perception RNG varies) ----
+    # Start from the alpha=1.0 profile of the *same* sweep so the initial env
+    # state matches the profiles being swept (not the main experiment's).
     env = GraspEnv(
         PerceptionErrorProfile.load(
-            out.parent / "grasp_gate" / "alpha_1.0" / "profile.json"
+            profiles_dir / "alpha_1.0" / "profile.json"
         ),
         exec_success=args.exec_success,
         phantom_rate=args.phantom_rate,
@@ -196,41 +200,50 @@ def main() -> int:
     gate["cliff_tier"] = frontier.cliff_tier
 
     # ---- real pack anchor ----
-    real_profile_path = out.parent / "grasp_gate" / "real" / "profile.json"
+    # locate the real profile + coco pack relative to the sweep's own outputs:
+    # the real profile lives next to the tier profiles (profiles_dir/real/),
+    # and the real coco pack lives next to the tier profile dir.
+    real_profile_path = profiles_dir / "real" / "profile.json"
     real_anchor: dict[str, float] | None = None
     if real_profile_path.is_file():
         real_prof = PerceptionErrorProfile.load(real_profile_path)
         env.profile = real_prof
-        # real images aren't in the synth manifest; use real coco pack instead
-        real_coco = json.loads(
-            (out.parent / "grasp_real" / "coco" / "annotations.json").read_text(encoding="utf-8")
-        )
-        real_imgs = out.parent / "coco" / "val2017"
+        # real images aren't in the synth manifest; use real coco pack instead.
+        # Prefer the sweep-specific real pack (data/grasp_real_v8) and fall back
+        # to the main real pack.
+        real_coco_candidates = [
+            _WORKSPACE / "data" / "grasp_real_v8" / "coco" / "annotations.json",
+            _WORKSPACE / "data" / "grasp_real" / "coco" / "annotations.json",
+        ]
+        real_coco_path = next((p for p in real_coco_candidates if p.is_file()), None)
+        real_imgs = _WORKSPACE / "data" / "coco" / "val2017"
         rng_scenarios = []
-        images = sorted(int(i["id"]) for i in real_coco["images"])[:50]
-        for img_id in images:
-            rng_scenarios.append(
-                GraspEnv.scene_from_coco(
-                    real_coco,
-                    real_imgs,
-                    image_id=img_id,
-                    coverage=1.0,
-                    tier="real",
-                    oov_classes=[],
-                    rng=__import__("random").Random(args.seed + 1),
+        if real_coco_path is not None:
+            real_coco = json.loads(real_coco_path.read_text(encoding="utf-8"))
+            images = sorted(int(i["id"]) for i in real_coco["images"])[:50]
+            for img_id in images:
+                rng_scenarios.append(
+                    GraspEnv.scene_from_coco(
+                        real_coco,
+                        real_imgs,
+                        image_id=img_id,
+                        coverage=1.0,
+                        tier="real",
+                        oov_classes=[],
+                        rng=__import__("random").Random(args.seed + 1),
+                    )
                 )
-            )
-        real_outcomes = env.run_corpus(rng_scenarios)
-        n_ok = sum(1 for oc in real_outcomes if oc.success)
-        n = len(real_outcomes)
-        lo, hi = wilson_ci(n, n_ok)
-        real_anchor = {
-            "n": n,
-            "success_rate": round(n_ok / n, 4),
-            "success_ci": [round(lo, 4), round(hi, 4)],
-            "failure_rate": round(1 - n_ok / n, 4),
-        }
-        print(f"[closedloop] real anchor: success={real_anchor['success_rate']}")
+            real_outcomes = env.run_corpus(rng_scenarios)
+            n_ok = sum(1 for oc in real_outcomes if oc.success)
+            n = len(real_outcomes)
+            lo, hi = wilson_ci(n, n_ok)
+            real_anchor = {
+                "n": n,
+                "success_rate": round(n_ok / n, 4),
+                "success_ci": [round(lo, 4), round(hi, 4)],
+                "failure_rate": round(1 - n_ok / n, 4),
+            }
+        print(f"[closedloop] real anchor: {real_anchor}")
 
     # ---- write artifacts ----
     # scene previews: representative images per tier from the corpus manifest.
@@ -253,7 +266,7 @@ def main() -> int:
                         "scene_id": Path(p).stem,
                         "tier": f"alpha_{cov:g}",
                         "coverage": cov,
-                        "image_url": "/api/graspgate/scene?f=" + img,
+                        "image_url": "/api/graspscope/scene?f=" + img,
                         "success": True,
                     }
                 )
@@ -281,7 +294,7 @@ def main() -> int:
                         "failure_type": ftype,
                         "target_cls": r.get("target_cls"),
                         "n_attempts": r.get("n_attempts"),
-                        "image_url": "/api/graspgate/scene?f=" + sid + ".jpg",
+                        "image_url": "/api/graspscope/scene?f=" + sid + ".jpg",
                     }
                 )
     except (OSError, ValueError, TypeError, KeyError):
@@ -311,7 +324,7 @@ def main() -> int:
 
     # summary
     lines = [
-        "# OpenVocab-GraspGate closed-loop summary",
+        "# GraspScope closed-loop summary",
         "",
         f"- metric: {metric}",
         f"- exec_success anchor: {args.exec_success}",
