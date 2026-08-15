@@ -90,3 +90,8 @@ closed-loop simulator → coverage sweep → cliff + gate — turns that decisio
 into a number with a confidence interval. The statistical machinery (Wilson CI,
 Fisher-exact, BH-FDR) is deliberately small and transparent, so the audit is a
 procedure any deployer can rerun on their own scenes and vocabulary.
+---
+
+## Live report
+
+The technical report, figures and every number are served at **[https://wyc66-66.github.io/graspscope/](https://wyc66-66.github.io/graspscope/)**.
