@@ -32,7 +32,7 @@ def main() -> int:
         d = json.loads(gr.read_text(encoding="utf-8"))
         facts.append(("grasp|cliff_tier", d["frontier"]["cliff_tier"]))
         facts.append(("grasp|cliff_coverage", f"{d['frontier']['cliff_coverage']:g}"))
-        facts.append(("grasp|cliff_separation", f"{d['frontier']['cliff_separation']:.1f}x"))
+        facts.append(("grasp|cliff_separation_stat", f"{d['frontier']['cliff_separation']:.1f}"))
         for p in sorted(d["frontier"]["curve"], key=lambda x: x["coverage"]):
             facts.append((f"grasp|failure_rate@{p['coverage']:g}", pct(p["failure_rate"], 1)))
             facts.append(

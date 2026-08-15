@@ -29,7 +29,8 @@ sports ball / vase). Perception: YOLO-World `yolov8s`, imgsz 640, conf 0.15.
 
 Three findings:
 
-1. **Safety cliff at α = 0.4** (separation 5.5×, Fisher p < 10⁻⁵). Perception
+1. **Safety cliff at α = 0.4** (max two-sample separation statistic 5.5,
+   bootstrap 95% CI [4.5, 6.6], Fisher p < 10⁻⁵). Perception
    recall itself is flat across α — the cliff is a *system* effect of
    vocabulary coverage on grasp reliability, not the detector changing.
 2. **Deployment gate: α ≥ 0.653** for a 25% failure bound (linear
@@ -42,10 +43,12 @@ Three findings:
    quality matters on real data.
 5. **Sensitivity.** The law's form survives both sweeps:
    - *Detector scale* (s → l): gate relaxes **0.653 → 0.484** (better
-     perception needs less vocabulary coverage; cliff stays at α=0.4).
+     perception needs less vocabulary coverage; cliff stays at α=0.4). The l arm
+     was run under a *more pessimistic* execution anchor (0.92 vs 0.95), so the
+     relaxation is conservative.
    - *Vocabulary size* (12 → 8): gate **0.653 → 0.545** (dropping the four
-     confusable classes reduces label confusion). Vocabulary *composition*
-     matters as much as vocabulary count.
+     confusable classes reduces label confusion; same conservative anchor).
+     Vocabulary *composition* matters as much as vocabulary count.
 
 ## Reproduce
 

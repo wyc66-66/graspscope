@@ -67,6 +67,9 @@ def main() -> int:
             "--max-fail-rate", "0.25",
             "--n-scenes", str(args.per_alpha),
             "--seeds", "5",
+            # keep the same execution anchor as the published sensitivity data
+            # (0.92), which is more conservative than the main sweep's 0.95.
+            "--exec-success", "0.92",
         )
 
     # ---------- B. vocabulary size: 8-class corpus, s detector ----------
@@ -104,6 +107,7 @@ def main() -> int:
             "--max-fail-rate", "0.25",
             "--n-scenes", str(args.per_alpha),
             "--seeds", "5",
+            "--exec-success", "0.92",
         )
 
     # ---------- summarize ----------

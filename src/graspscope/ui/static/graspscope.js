@@ -166,13 +166,10 @@
     gKv.innerHTML = "";
     const gRows = [
       ["max failure", gate.max_fail_rate != null ? pct(gate.max_fail_rate, 0) : "—"],
-      ["interp from", gate.interp_from != null ? "α=" + fmt(gate.coverage_min - (gate.coverage_min - 0.6), 2) + " (" + pct(gate.interp_from, 1) + ")" : "—"],
+      ["segment", gate.tier_below && gate.tier_above ? gate.tier_below + " → " + gate.tier_above : "—"],
       ["cliff tier", gate.cliff_tier || "—"],
       ["method", "linear interp on monotone frontier"],
     ];
-    if (gate.tier_below && gate.tier_above) {
-      gRows[1] = ["segment", gate.tier_below + " → " + gate.tier_above];
-    }
     for (const [k, v] of gRows) {
       const dt = document.createElement("dt"); dt.textContent = k;
       const dd = document.createElement("dd"); dd.textContent = v;
@@ -185,8 +182,8 @@
     const cKv = $("cliffKv");
     cKv.innerHTML = "";
     const cRows = [
-      ["separation", fmt(cl.cliff_separation, 1) + "×"],
-      ["separation CI", cl.cliff_separation_ci ? fmt(cl.cliff_separation_ci[0], 2) + "–" + fmt(cl.cliff_separation_ci[1], 2) + "×" : "—"],
+      ["separation stat", fmt(cl.cliff_separation, 1)],
+      ["separation CI", cl.cliff_separation_ci ? fmt(cl.cliff_separation_ci[0], 2) + "–" + fmt(cl.cliff_separation_ci[1], 2) : "—"],
       ["monotonic", cl.monotonic ? "yes" : "no"],
       ["method", cl.method || "max separation"],
     ];
@@ -267,7 +264,7 @@
         const card = document.createElement("div");
         card.className = "scene-card";
         const img = document.createElement("img");
-        img.src = s.url;
+        img.src = s.image_url || s.url;
         img.loading = "lazy";
         img.alt = "scene " + s.scene_id;
         const cap = document.createElement("div");
