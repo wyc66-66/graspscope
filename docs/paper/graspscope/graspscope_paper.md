@@ -48,6 +48,18 @@ orders — this changes the operational question from *"which categories must we
 support?"* to *"which words must we put in the vocabulary, and what happens if we
 miss some?"*
 
+The synthetic-pretraining paradigm behind GraspVLA makes this question
+especially concrete. GraspVLA is pre-trained on SynGrasp-1B, a billion-frame
+synthetic grasping dataset with extensive domain randomization, and transfers
+zero-shot to real objects by grounding internet-scale semantic knowledge [1].
+That pipeline deliberately makes the *visual vocabulary* the shipping interface:
+the deployer does not fine-tune the model for new objects, they extend the set
+of natural-language names the policy can ground. The reliability consequence of
+that vocabulary decision — how far coverage must extend before grasp failure
+drops below an acceptable bound — is precisely the quantity our audit procedure
+measures, and it is one the synthetic-data literature reports only as aggregate
+success rates on fixed benchmarks [1, 2, 3, 5].
+
 The latter question has no quantitative answer today. Prior work evaluates
 open-vocabulary perception with recall/precision on fixed benchmarks [3, 4],
 and evaluates grasping with success rate on physical or
