@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GraspScope · Closed-loop deployability audits for open-vocabulary robotic grasping</title>
+<style>
+  :root { --a:#0e5a8a; --a2:#145a32; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:#f4f7fa; color:#16242f; line-height:1.65; }
+  header { background:linear-gradient(135deg, var(--a) 0%, var(--a2) 100%); color:#fff; padding:58px 40px 46px; }
+  .inner { max-width:960px; margin:0 auto; }
+  header h1 { font-size:34px; letter-spacing:.4px; }
+  header p.tag { margin-top:12px; font-size:17px; opacity:.92; max-width:760px; }
+  main { max-width:960px; margin:0 auto; padding:34px 24px 80px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-bottom:26px; }
+  .kpi { background:#fff; border:1px solid #dce5ee; border-radius:12px; padding:16px 18px; }
+  .kpi .lab { font-size:12px; text-transform:uppercase; letter-spacing:.7px; color:#5b7282; }
+  .kpi .val { font-size:21px; font-weight:700; margin-top:6px; color:var(--a); }
+  .card { background:#fff; border:1px solid #dce5ee; border-radius:12px; padding:22px 24px; margin-top:18px; }
+  .card h2 { font-size:17px; margin-bottom:10px; color:var(--a); }
+  .card p { font-size:14.5px; color:#33465a; }
+  .card img { width:100%; border:1px solid #e3e9f0; border-radius:8px; margin-top:12px; }
+  a.btn { display:inline-block; margin-top:16px; background:var(--a); color:#fff; text-decoration:none;
+           padding:10px 18px; border-radius:8px; font-size:14px; font-weight:600; }
+  a.btn:hover { opacity:.9; }
+  footer { text-align:center; color:#8aa0b2; font-size:12.5px; padding:24px 0 40px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <h1>GraspScope</h1>
+    <p class="tag">Closed-loop deployability audits for open-vocabulary robotic grasping</p>
+  </div>
+</header>
+<main>
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Headline</div><div class="val">deployment gate α* = 0.653</div></div>
+    <div class="kpi"><div class="lab">Second</div><div class="val" style="font-size:16px">cliff at α = 0.4 · separation 5.5×</div></div>
+  </div>
+
+  <div class="card">
+    <h2>What this project is</h2>
+    <p>Open-vocabulary grasping ships a <i>vocabulary</i> of object names — a deployment decision made by intuition. This project turns it into a number: profile the perception stack, inject measured failures into a closed-loop grasp simulator, and sweep vocabulary coverage α. Coverage is a <b>safety cliff</b> — cutting α from 1.0 to 0.2 raises grasp failure from 9.9% to 57.2%, with a statistically detected cliff at α = 0.4. For a 25% failure bound the deployment gate requires α ≥ 0.653.</p>
+    <a class="btn" href="paper/graspscope/graspscope_paper.html">Read the technical report →</a>
+    <img src="paper/graspscope/figures/fig1_pipeline.png" alt="GraspScope headline figure">
+  </div>
+</main>
+<footer>GraspScope · full source on GitHub · figures, data and every number produced by the repo scripts</footer>
+</body>
+</html>
