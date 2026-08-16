@@ -80,6 +80,14 @@ The committed `data/` already contains the generated corpus, perception
 profiles, closed-loop results, and both sensitivity sweeps, so steps 1–4 are
 only needed to regenerate.
 
+## Tests
+
+```bash
+python -m pytest -q        # 40 tests: closed-loop frontier, grasp env, stats
+```
+
+CI (`.github/workflows/ci.yml`) runs the suite on every push to `main`.
+
 ## Paper
 
 [docs/paper/graspscope/graspscope_paper.pdf](docs/paper/graspscope/graspscope_paper.pdf)
