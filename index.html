@@ -21,10 +21,13 @@
   .card h2 { font-size:17px; margin-bottom:10px; color:var(--a); }
   .card p { font-size:14.5px; color:#33465a; }
   .card img { width:100%; border:1px solid #e3e9f0; border-radius:8px; margin-top:12px; }
+  .card.small { padding:14px 24px; background:#fbfdff; }
+  .card.small p { font-size:13px; color:#5b7282; margin:0; }
+  footer { max-width:960px; margin:0 auto; padding:0 24px 34px; font-size:12.5px; color:#5b7282; }
+  footer a { color:#5b7282; font-weight:600; }
   a.btn { display:inline-block; margin-top:16px; background:var(--a); color:#fff; text-decoration:none;
            padding:10px 18px; border-radius:8px; font-size:14px; font-weight:600; }
   a.btn:hover { opacity:.9; }
-  footer { text-align:center; color:#8aa0b2; font-size:12.5px; padding:24px 0 40px; }
 </style>
 </head>
 <body>
@@ -46,7 +49,11 @@
     <a class="btn" href="paper/graspscope/graspscope_paper.html">Read the technical report →</a>
     <img src="paper/graspscope/figures/fig1_pipeline.png" alt="GraspScope headline figure">
   </div>
+  <div class="card small">
+    <h2>Credibility at a glance</h2>
+    <p>swept vocabulary coverage α · closed-loop grasp simulator · Wilson-CI cliffs + two-proportion stats</p>
+  </div>
 </main>
-<footer>GraspScope · full source on GitHub · figures, data and every number produced by the repo scripts</footer>
+<footer>GraspScope · <a href="https://github.com/wyc66-66/graspgate">full source on GitHub</a> · figures, data and every number produced by the repo scripts</footer>
 </body>
 </html>
